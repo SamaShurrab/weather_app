@@ -1,5 +1,6 @@
 class AppStrings {
   // Splash Screen
+  static final String descriptionTitle = "Your weather, in your hands";
   static final String getStarted = "Get Started";
 
   // Choose City Screen
@@ -23,14 +24,15 @@ class AppStrings {
   static final String details = "details";
   static final String fahrenheitUnitApi = "imperial";
   static final String fahrenheit = "Fahrenheit";
-  static final String fahrenheitUnit = "F";
+  static final String fahrenheitUnit = "°F";
   static final String celsius = "Celsius";
   static final String celsiusUnitApi = "metric";
-  static final String celsiusUnit = "C";
+  static final String celsiusUnit = "°C";
+  static final String tempUnit = "°";
 
   // Change Unit Temperature dialog
   static final String changeTemp = "Change Unit of Temperature";
-  static final String tempUnit = "Temperature Unit";
+  static final String tempUnitStr = "Temperature Unit";
   static final String cancel = "Cancel";
   static final String convert = "Convert";
   static final String pleaseSelectUnitTemp =
