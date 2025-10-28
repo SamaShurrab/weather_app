@@ -17,24 +17,24 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(ImagePaths.logo),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Text(
               AppStrings.descriptionTitle,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                shadows: [
+                shadows: const [
                   Shadow(
-                    color: Colors.grey,
+                    color: Colors.white,
                     blurRadius: 5,
                     offset: Offset(2, 5),
                   ),
                 ],
                 fontSize: 23,
-                color: Colors.black,
+                color: AppColors.secondaryColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Custombutton(
               onPressed: () {},
               buttonText: AppStrings.getStarted,
@@ -44,5 +44,5 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
+  } //build()
+}//SplashScreen class 
