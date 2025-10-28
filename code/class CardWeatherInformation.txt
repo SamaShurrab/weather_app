@@ -1,0 +1,76 @@
+class CardWeatherInformation extends StatelessWidget {
+  final bool isLoading;
+  final Map<int, dynamic> weatherInfoDays;
+  final int currentDt;
+  final String? screenType;
+  final Color color;
+  final Color textColor;
+  const CardWeatherInformation({
+    super.key,
+    required this.isLoading,
+    required this.weatherInfoDays,
+    required this.currentDt,
+    this.screenType,
+    required this.color,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 125,
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics:const NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: Collections.weatherInformationList.length,
+        itemBuilder: (context, index) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                screenType == AppStrings.details
+                    ? ""
+                    : Collections.weatherInformationList[index]["cardName"],
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 5),
+              SizedBox(
+                width: 70,
+                height: 70,
+                child: Card(
+                  color: color,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Image.asset(
+                      Collections.weatherInformationList[index]["cardImage"],
+                    ),
+                  ),
+                ),
+              ),
+              Text(
+                isLoading || !weatherInfoDays.containsKey(currentDt)
+                    ? "0"
+                    : "${weatherInfoDays[currentDt][Collections.weatherInformationList[index]["cardValue"]]?? 0}${Collections.weatherInformationList[index]["unit"]}",
+
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          );
+        },
+        gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+        ),
+      ),
+    );
+  }
+}

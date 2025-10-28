@@ -1,0 +1,79 @@
+class TimeHelper {
+  String currentHour = DateFormat("HH").format(DateTime.now());
+  String get currentTime => DateFormat("HH:mm:ss").format(DateTime.now());
+  String get timePeriod => DateFormat('a').format(DateTime.now());
+  String get currentDay => DateFormat("EEEE").format(DateTime.now());
+  String get currentMonth => DateFormat("MMM").format(DateTime.now());
+  String get currentYear => DateFormat("yyyy").format(DateTime.now());
+  int currentDateNumber = DateTime.now().day;
+
+  String getNearestTime() {
+    final int currentHourInt = DateTime.now().hour;
+    const List<int> availableTimes = [0, 3, 6, 9, 12, 15, 18, 21];
+
+    for (int i = 0; i < availableTimes.length; i++) {
+      if (i != availableTimes.length - 1) {
+        if (currentHourInt >= availableTimes[i] &&
+            currentHourInt < availableTimes[i + 1]) {
+          return availableTimes[i].toString().padLeft(2, '0');
+        }
+      } else {
+        return availableTimes[i].toString().padLeft(2, '0');
+      }
+    }
+    return '00'; // fallback
+  }
+
+  int convertTimeAndDayToTimestamp(String currentTime) {
+    DateTime currentDate = DateTime.now();
+    List<String> timeParts = currentTime.split(":");
+    if (timeParts.length != 3) {
+      throw FormatException('Invalid time format: $currentTime');
+    }
+    DateTime fullDateTime = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      int.parse(currentHour),
+      00,
+      00,
+    );
+    return fullDateTime.millisecondsSinceEpoch ~/ 1000;
+  }
+}
+
+String get currentTime => DateFormat("HH:mm:ss").format(DateTime.now());
+String get timePeriod => DateFormat('a').format(DateTime.now());
+String get currentDay => DateFormat("EEEE").format(DateTime.now());
+String get currentMonth => DateFormat("MMM").format(DateTime.now());
+String get currentYear => DateFormat("yyyy").format(DateTime.now());
+int currentDateNumber = DateTime.now().day;
+
+String getNearestTime() {
+  final int currentHourInt = DateTime.now().hour;
+
+  const List<int> avaliableTime = [00, 03, 09, 12, 15, 18, 21];
+  for (int i = 0; i < avaliableTime.length; i++) {
+    if (i != avaliableTime.length - 1) {
+      if (currentHourInt >= avaliableTime[i] &&
+          currentHourInt < avaliableTime[i + 1]) {
+        return avaliableTime[i + 1].toString();
+      }
+    } else {
+      return avaliableTime[i].toString();
+    }
+  }
+  return '00';
+}
+
+int convertTimeAndDayToTimestamp(String nearestTime) {
+  DateTime now = DateTime.now();
+  List<String> timeParts = currentTime.split(":");
+  if (timeParts.length != 3) {
+    throw FormatException('Invalid time format: $currentTime');
+  }
+  final int hour = int.parse(nearestTime);
+
+  DateTime fullDateTime = DateTime(now.year, now.month, now.day, hour, 00, 00);
+  return fullDateTime.millisecondsSinceEpoch ~/ 1000;
+}

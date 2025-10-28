@@ -1,0 +1,142 @@
+class DialogChangeTempUnit extends StatefulWidget {
+  const DialogChangeTempUnit({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return DialogChangeTempUnitState();
+  }
+}
+
+class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
+  String? selectedUnit;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        AppStrings.changeTemp,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 21,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  AppStrings.tempUnit,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: SizedBox(
+                  height: 50,
+                  child: DropdownButtonFormField<String>(
+                    isExpanded: true,
+
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                    hint: Text(
+                      AppStrings.unit,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.appBarColor,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.appBarColor,
+                          width: 0,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.appBarColor,
+                          width: 0,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    borderRadius: BorderRadius.circular(30),
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    dropdownColor: AppColors.appBarColor,
+                    items: [AppStrings.celsius, AppStrings.fahrenheit]
+                        .map(
+                          (tempUnit) => DropdownMenuItem(
+                            value: tempUnit,
+                            child: Text(
+                              tempUnit,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedUnit = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        CustomButton(
+          buttonName: AppStrings.convert,
+          onPressed: () {
+            if (selectedUnit == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                CustomSnackbar.buildSnackBar(AppStrings.pleaseSelectUnitTemp),
+              );
+            } else {
+              final String unitForApi = selectedUnit == AppStrings.fahrenheit
+                  ? AppStrings.fahrenheitUnit
+                  : AppStrings.celsiusUnit;
+
+              Navigator.of(context).pop(unitForApi);
+            }
+          },
+          horizontal: 30,
+        ),
+        CustomButton(
+          horizontal: 30,
+          buttonName: AppStrings.cancel,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}

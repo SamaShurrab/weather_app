@@ -1,0 +1,24 @@
+class CustomSnackbar {
+  static SnackBar buildSnackBar(String data) {
+    return SnackBar(
+      backgroundColor: Colors.red,
+      showCloseIcon: true,
+      duration:const Duration(seconds: 4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      content: Text(
+        data,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 18,
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+}

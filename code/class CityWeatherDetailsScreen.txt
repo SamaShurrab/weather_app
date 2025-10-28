@@ -1,0 +1,96 @@
+class CityWeatherDetailsScreen extends StatelessWidget {
+  final String cityName;
+  final Map<int, dynamic> weatherInfoDays;
+  final String dayName;
+  const CityWeatherDetailsScreen({
+    super.key,
+    required this.cityName,
+    required this.weatherInfoDays,
+    required this.dayName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    CityLocationClass cityLocationClass = CityLocationClass();
+    return Scaffold(
+      backgroundColor: AppColors.appBarColor,
+      appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: AppColors.appBarColor,
+        title: Text(
+          cityName,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: MediaQuery.heightOf(context) * (55 / 100),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(170),
+                  topRight: Radius.circular(170),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                WeekWeatherInformation(
+                  weatherWeekInformationList: weatherInfoDays,
+                  currentDT: 1,
+                  screenType: AppStrings.details,
+                  shadowColor: Colors.transparent,
+                ),
+                const SizedBox(height: 60),
+                CardWeatherType(
+                  currentDt: 1,
+                  weatherMap: weatherInfoDays,
+
+                  screenType: AppStrings.details,
+                  height: 300,
+                  imagePath: ImagePaths.heavyRain,
+                  // cityLocationClass.getImageByweatherTypeCity(
+                  //   weatherInfoDays[dayName]["weather"],
+                  // ),
+                  weatherType: "",
+                  // weatherInfoDays[dayName]["weather"],
+                  tempreture: 100,
+                  // weatherInfoDays[dayName]["temp"],
+                  unit: "°",
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.gradiantColor1,
+                      AppColors.gradiantColor2,
+                    ],
+                    begin: AlignmentGeometry.topLeft,
+                  ),
+                ),
+                SizedBox(height: 25),
+                ListTileWeatherDayInformation(
+                  weatherInfoDays: weatherInfoDays,
+                  cityLocation: cityLocationClass,
+                  currentDay: dayName,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

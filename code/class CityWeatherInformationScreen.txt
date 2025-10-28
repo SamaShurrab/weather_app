@@ -1,0 +1,312 @@
+class CityWeatherInformationScreen extends StatefulWidget {
+  final String cityName;
+
+  const CityWeatherInformationScreen({super.key, required this.cityName});
+
+  @override
+  State<StatefulWidget> createState() {
+    return CityWeatherInformationScreenState();
+  }
+}
+
+class CityWeatherInformationScreenState
+    extends State<CityWeatherInformationScreen> {
+  bool isLoading = true;
+  Map<String, dynamic> weatherCityData = {};
+  CityLocationClass cityLocation = CityLocationClass();
+  String? country;
+  num? temp;
+  num? tempMax;
+  num? humidity;
+  String? weather;
+  num? windSpeed;
+  String initialUnitTemperature = AppStrings.celsiusUnit;
+  String? selectedUnit;
+  int? currentDt;
+  String? dtText;
+  Map<int, dynamic> weatherInfoDays = {};
+  TimeHelper timeHelper = TimeHelper();
+
+  Future<void> buildWeatherMapByDay() async {
+    if (weatherCityData["list"] == null) return;
+
+    Map<int, dynamic> tempWeatherInfoDays = {};
+    for (int i = 0; i < weatherCityData["list"].length; i++) {
+      final int dtKey = weatherCityData["list"][i]["dt"];
+      if (!weatherInfoDays.containsKey(dtKey)) {
+        temp = weatherCityData["list"][i]["main"]["temp"];
+        tempMax = weatherCityData["list"][i]["main"]["temp_max"];
+        humidity = weatherCityData["list"][i]["main"]["humidity"];
+        weather = weatherCityData["list"][i]["weather"][0]["main"];
+        windSpeed = weatherCityData["list"][i]["wind"]["speed"];
+        dtText = weatherCityData["list"][i]["dt_txt"];
+        tempWeatherInfoDays[dtKey] = {
+          "day": DateFormat(
+            "EEEE",
+          ).format(DateTime.fromMillisecondsSinceEpoch(dtKey * 1000)),
+          "dt_txt": dtText,
+          "temp": temp!.toInt(),
+          "temp_max": tempMax!.toInt(),
+          "humidity": humidity!.toInt(),
+          "weather": weather,
+          "windSpeed": windSpeed!.toInt(),
+        };
+      }
+    }
+    setState(() {
+      weatherInfoDays = tempWeatherInfoDays;
+    });
+  }
+
+  Future<void> getLocationCity(String cityName) async {
+    try {
+      print("Getting location for: $cityName");
+      await cityLocation.getCityLocation(cityName);
+
+      if (cityLocation.lat == 0 || cityLocation.lon == 0) {
+        throw Exception("Invalid coordinates");
+      }
+
+      weatherCityData = await NetworkHelper(
+        url:
+            "https://api.openweathermap.org/data/2.5/forecast?lat=${cityLocation.lat}&lon=${cityLocation.lon}&appid=${AppStrings.apiKeys}&units=$initialUnitTemperature",
+      ).getData(cityLocation.lat, cityLocation.lon);
+      print("API call completed with unit: $initialUnitTemperature");
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> buildData() async {
+    if (!mounted) return;
+
+    setState(() {
+      weatherCityData = {};
+      weatherInfoDays = {};
+      currentDt = null;
+      isLoading = true;
+    });
+
+    try {
+      print("Starting data fetch for: ${widget.cityName}");
+      await getLocationCity(widget.cityName);
+
+      if (weatherCityData.isEmpty || weatherCityData["city"] == null) {
+        throw Exception("No weather data received from API");
+      }
+
+      country = weatherCityData["city"]["country"];
+      await buildWeatherMapByDay();
+
+      if (weatherInfoDays.isNotEmpty) {
+        final String nearestTime = timeHelper.getNearestTime();
+        print("Nearest time: $nearestTime");
+
+        currentDt = timeHelper.convertTimeAndDayToTimestamp(
+          "$nearestTime:00:00",
+        );
+        print("Calculated currentDt: $currentDt");
+      } else {
+        throw Exception("No weather days data available");
+      }
+
+      print("Data loaded successfully");
+    } catch (error) {
+      print("Error in buildData: $error");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Failed to load weather: ${error.toString()}"),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    buildData().then((_) {
+      print("📊 Weather info days: ${weatherInfoDays.length}");
+      print("🎯 Current Dt: $currentDt");
+
+      final String nearestTime = timeHelper.getNearestTime();
+      print("Final nearest time: $nearestTime");
+    });
+  }
+
+  @override
+  void dispose() {
+    weatherInfoDays.clear();
+    weatherCityData.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              isLoading
+                  ? ScaffoldMessenger.of(context).showSnackBar(
+                      CustomSnackbar.buildSnackBar(AppStrings.waiting),
+                    )
+                  : showDialog<String>(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) {
+                        return DialogChangeTempUnit();
+                      },
+                    ).then((String? selectedUnit) {
+                      if (selectedUnit != null) {
+                        setState(() {
+                          initialUnitTemperature = selectedUnit;
+                          isLoading = true;
+                          print("Selected unit: $initialUnitTemperature");
+                        });
+                        buildData();
+                      }
+                    });
+            },
+            icon: Icon(Icons.settings, color: AppColors.appBarColor),
+          ),
+        ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColors.appBarColor,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                isLoading ? widget.cityName : "${widget.cityName} , $country",
+                style: const TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                "${timeHelper.currentDay} ,${timeHelper.currentDateNumber} ${timeHelper.currentMonth}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                "${timeHelper.currentTime} ${timeHelper.timePeriod}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 65),
+              CardWeatherType(
+                screenType: AppStrings.general,
+                height: 180,
+                imagePath: isLoading && currentDt == null
+                    ? ""
+                    : CityLocationClass.getImageByweatherTypeCity(
+                        weatherInfoDays[currentDt]["weather"],
+                      ),
+                weatherType: isLoading && currentDt == null
+                    ? AppStrings.loading
+                    : weatherInfoDays[currentDt]["weather"],
+
+                tempreture: isLoading && currentDt == null
+                    ? 0
+                    : weatherInfoDays[currentDt]["temp"],
+                unit: "°",
+              ),
+              const SizedBox(height: 50),
+              CardWeatherInformation(
+                textColor: Colors.black,
+                color: AppColors.primaryColor,
+                isLoading: isLoading,
+                currentDt: currentDt == null ? 0 : currentDt!,
+                weatherInfoDays: weatherInfoDays,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppStrings.today,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      isLoading
+                          ? ScaffoldMessenger.of(context).showSnackBar(
+                              CustomSnackbar.buildSnackBar(AppStrings.waiting),
+                            )
+                          : Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return CityWeatherDetailsScreen(
+                                    cityName: widget.cityName,
+                                    weatherInfoDays: weatherInfoDays,
+                                    dayName: timeHelper.currentDay,
+                                  );
+                                },
+                              ),
+                            );
+                    },
+                    child: Text(
+                      AppStrings.next,
+                      style: TextStyle(
+                        color: AppColors.nextTextColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              isLoading
+                  ? Center(
+                      child: Image.asset(
+                        ImagePaths.loading,
+                        height: 150,
+                        width: 150,
+                      ),
+                    )
+                  : WeekWeatherInformation(
+                      cityName: widget.cityName,
+                      weatherWeekInformationList: weatherInfoDays,
+                      currentDT: currentDt == null ? 0 : currentDt!,
+                      screenType: AppStrings.general,
+                      shadowColor: AppColors.shadowColor,
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

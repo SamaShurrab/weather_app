@@ -1,0 +1,110 @@
+class CardWeatherType extends StatelessWidget {
+  final String imagePath;
+  final String weatherType;
+  final int tempreture;
+  final String unit;
+  final double height;
+  final Gradient? gradient;
+  final String screenType;
+  final Map<int, dynamic>? weatherMap;
+  final int? currentDt;
+
+  const CardWeatherType({
+    super.key,
+    required this.imagePath,
+    required this.weatherType,
+    required this.tempreture,
+    required this.unit,
+    required this.height,
+    this.gradient,
+    required this.screenType,
+    this.weatherMap,
+    this.currentDt,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: height,
+          decoration: BoxDecoration(
+            gradient: gradient,
+            color: AppColors.cardWeatheTypeColor,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.shadowColor,
+                blurRadius: 2,
+                spreadRadius: -2,
+                offset: const Offset(0, 15),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: AlignmentGeometry.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    "$tempreture$unit",
+                    style: const TextStyle(
+                      fontSize: 70,
+                      color: Colors.white38,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  weatherType,
+                  style: const TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              if (screenType == AppStrings.details)
+                weatherMap != null && currentDt != null
+                    ? CardWeatherInformation(
+                        textColor: Colors.white,
+                        color: Color(0xffa9c1f5),
+                        screenType: AppStrings.details,
+                        isLoading: false,
+                        weatherInfoDays: weatherMap!,
+                        currentDt: currentDt!,
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.appBarColor,
+                        ),
+                      ),
+            ],
+          ),
+        ),
+        if (imagePath.isNotEmpty)
+          Positioned(
+            left: 30,
+            top: -60,
+            child: Image.asset(
+              imagePath,
+              width: 140,
+              height: 140,
+              errorBuilder: (context, error, stackTrace) => SizedBox(
+                height: 140,
+                width: 140,
+                child: Icon(Icons.error, color: Colors.white),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}

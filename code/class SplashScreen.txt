@@ -1,0 +1,24 @@
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primaryColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Image.asset(ImagePaths.logo)),
+          const SizedBox(height: 50),
+          CustomButton(
+            horizontal: 90,
+            buttonName: AppStrings.getStarted,
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed("chooseCitiesScreen");
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

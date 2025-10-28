@@ -1,0 +1,138 @@
+class WeekWeatherInformation extends StatelessWidget {
+  final Map<int, dynamic> weatherWeekInformationList;
+  final int currentDT;
+  final String screenType;
+  final Color shadowColor;
+  final String? cityName;
+
+  const WeekWeatherInformation({
+    super.key,
+    required this.weatherWeekInformationList,
+    required this.currentDT,
+    required this.screenType,
+    required this.shadowColor,
+    this.cityName,
+  });
+
+  List<Map<String, dynamic>> getUniqesDays() {
+    Set<String> dayName = {};
+    List<Map<String, dynamic>> uniqesDays = [];
+
+    for (var entry in weatherWeekInformationList.entries) {
+      String dayKey = DateFormat(
+        "EEEE",
+      ).format(DateTime.parse(entry.value["dt_txt"]));
+      if (!dayName.contains(dayKey)) {
+        dayName.add(dayKey);
+        uniqesDays.add({
+          "day": dayKey,
+          "temp": entry.value["temp"],
+          "weather": entry.value["weather"],
+          "dt_txt": entry.value["dt_txt"],
+          "timestamp": entry.key,
+        });
+      }
+    }
+    return uniqesDays;
+  }
+
+  Color getCardColor(bool isCurrentDay) {
+    if (screenType == AppStrings.general) {
+      return isCurrentDay ? AppColors.cardWeatheTypeColor : Colors.white;
+    } else {
+      return isCurrentDay ? Colors.white : AppColors.detailColor;
+    }
+  }
+
+  Color getTextColor(bool isCurrentDay) {
+    if (screenType == AppStrings.general) {
+      return isCurrentDay ? Colors.white : AppColors.cardWeatheTypeColor;
+    } else {
+      return isCurrentDay ? AppColors.detailColor : Colors.white;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Map<String, dynamic>> uniqesDays = getUniqesDays();
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: uniqesDays.length,
+        itemBuilder: (context, index) {
+          final bool isCurrentDay = uniqesDays[index]["timestamp"] == currentDT;
+          return Row(
+            children: [
+              SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: InkWell(
+                  onTap: screenType == AppStrings.general
+                      ? () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CityWeatherDetailsScreen(
+                                  cityName: cityName!,
+                                  weatherInfoDays: weatherWeekInformationList,
+                                  dayName: uniqesDays[index]["day"],
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      : null,
+                  child: SizedBox(
+                    width: 115,
+                    child: Card(
+                      shadowColor: shadowColor,
+                      elevation: 4,
+                      margin: const EdgeInsets.only(right: 10),
+                      color: getCardColor(isCurrentDay),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${uniqesDays[index]["temp"]}°C",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: getTextColor(isCurrentDay),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Image.asset(
+                              CityLocationClass.getImageByweatherTypeCity(
+                                uniqesDays[index]["weather"],
+                              ),
+                              height: 40,
+                              width: 40,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              uniqesDays[index]["day"],
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: getTextColor(isCurrentDay),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

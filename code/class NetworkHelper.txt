@@ -1,0 +1,47 @@
+class NetworkHelper {
+  final String url;
+  final Duration timeoutDuration;
+
+  NetworkHelper({
+    required this.url,
+    this.timeoutDuration = const Duration(seconds: 30),
+  });
+
+  Future<Map<String, dynamic>> getData(double lat, double lon) async {
+    try {
+      final response = await http
+          .get(Uri.parse(url))
+          .timeout(
+            timeoutDuration,
+            onTimeout: () => throw TimeoutException(
+              'Request timeout after ${timeoutDuration.inSeconds} seconds',
+            ),
+          );
+
+      if (response.statusCode == 200) {
+        try {
+          // هنا سيتم معالجة البيانات بنجاح
+          final Map<String, dynamic> weatherDataMap = jsonDecode(response.body);
+          return weatherDataMap;
+        } catch (e) {
+          // عرض "مشكلة في البيانات"
+          throw FormatException('Invalid JSON format: $e');
+        }
+      } else {
+        throw HttpException(
+          'Failed to load data. Status code: ${response.statusCode}',
+        );
+      }
+      // عرض "الاتصال بطيء، حاول مرة أخرى"
+    } on TimeoutException {
+      rethrow;
+    } on http.ClientException catch (e) {
+      // عرض "مشكلة في الخادم"
+      throw HttpException('Network error: $e');
+    } catch (e) {
+      // عرض "خطأ غير متوقع"
+
+      throw Exception('Unexpected error: $e');
+    }
+  }
+}

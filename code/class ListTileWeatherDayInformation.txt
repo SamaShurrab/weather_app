@@ -1,0 +1,94 @@
+class ListTileWeatherDayInformation extends StatelessWidget {
+  final Map<int, dynamic> weatherInfoDays;
+  final CityLocationClass cityLocation;
+  final String currentDay;
+  const ListTileWeatherDayInformation({
+    super.key,
+    required this.weatherInfoDays,
+    required this.cityLocation,
+    required this.currentDay,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: weatherInfoDays.length,
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          final key = weatherInfoDays.keys.elementAt(index);
+          final weatherData = weatherInfoDays[key]!;
+          final timestamp = key * 1000;
+          final dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+          final day = DateFormat("dd").format(dateTime);
+          final month = DateFormat("MMM").format(dateTime);
+          return SizedBox(
+            height: 120,
+            child: Card(
+              color: Colors.white,
+              margin: EdgeInsets.symmetric(vertical: 15),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "$day $month,",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: AppColors.appBarColor,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: "${dateTime.day}",
+                        style: TextStyle(
+                          fontFamily: "Nunito",
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black45,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "${dateTime.month}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black45,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          height: 30,
+                          width: 30,
+                          CityLocationClass.getImageByweatherTypeCity(
+                            weatherData["weather"],
+                          ),
+                        ),
+                        Text(
+                          weatherData["weather"],
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

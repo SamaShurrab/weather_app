@@ -1,0 +1,45 @@
+class CityLocationClass {
+  double lat = 0;
+  double lon = 0;
+
+  CityLocationClass();
+
+  Future<void> getCityLocation(String cityName) async {
+    try {
+      List<Location> cityPositon = await locationFromAddress(cityName);
+      if (cityPositon.isEmpty) {
+        throw Exception("City not found: $cityName");
+      }
+
+      lat = cityPositon.first.latitude;
+      lon = cityPositon.first.longitude;
+
+      print("Location found - lat: $lat, lon: $lon");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static String getImageByweatherTypeCity(String weatherType) {
+    switch (weatherType) {
+      case "Thunderstorm":
+        return ImagePaths.thunderStorm;
+      case "Drizzle":
+        return ImagePaths.showers;
+      case "Rain":
+        return ImagePaths.heavyRain;
+      case "Snow":
+        return ImagePaths.hail;
+      case "Clear":
+        return ImagePaths.clear;
+      case "Clouds":
+        return ImagePaths.lightCloud;
+      case "Haze":
+        return ImagePaths.heavyCloud;
+      case "Mist":
+        return ImagePaths.snow;
+      default:
+        return ImagePaths.lightRain;
+    }
+  }
+}
