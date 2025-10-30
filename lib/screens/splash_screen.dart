@@ -36,7 +36,9 @@ class SplashScreen extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             Custombutton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed("chooseCityScreen");
+              },
               buttonText: AppStrings.getStarted,
               horizontalPadding: MediaQuery.heightOf(context) * (10 / 100),
             ),

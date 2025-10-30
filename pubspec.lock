@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  cities:
+    dependency: "direct main"
+    description:
+      name: cities
+      sha256: "7800644a6c23ac8dab7f1a465da7f12cb495b65cc3feeb6913d7e5afcef727a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   clock:
     dependency: transitive
     description:

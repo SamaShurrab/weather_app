@@ -7,6 +7,7 @@ class AppStrings {
   static final String selectCities = "Select City";
   static final String citiesNotFound = "No Cities Found";
   static final String pleaseSelectCity = "Please select a city";
+  static final String hint = "Enter City Name";
 
   // HomePage Screen
   static final String windSpeed = "Wind Speed";
