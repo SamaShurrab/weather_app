@@ -34,7 +34,7 @@ class BuildCountriesWithCities extends StatelessWidget {
             final City city = country.cities[cityIndex];
             bool isSelected =
                 cityIndex == selectedCityIndex &&
-                countrySelectedIndex == countrySelectedIndex;
+                countrySelectedIndex == countryIndex;
             return BuildCities(
               cityIndex: cityIndex,
               city: city,

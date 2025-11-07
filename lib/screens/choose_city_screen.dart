@@ -4,9 +4,8 @@ import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/constants/app_strings.dart';
 import 'package:weather_app/constants/image_paths.dart';
 import 'package:weather_app/customWidget/build_countries_with_cities.dart';
-import 'package:weather_app/customWidget/custom_search.dart';
+import 'package:weather_app/customWidget/city_search_delegate.dart';
 import 'package:weather_app/customWidget/custom_snackbar.dart';
-import 'package:weather_app/customWidget/no_data_found_widget.dart';
 import 'package:weather_app/model/country_class.dart';
 
 class ChooseCityScreen extends StatefulWidget {
@@ -37,6 +36,31 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
     });
   }
 
+  void openSearch() async {
+    final Map<String, dynamic>? listSearch = await showSearch(
+      context: context,
+      delegate: CitySearchDelegate(countries: countryClass.countries),
+    );
+
+    if (listSearch!.isNotEmpty) {
+      setState(() {
+        City city = listSearch["city"];
+        Country country = listSearch["country"];
+        setState(() {
+          cityNameSelected = city;
+          selectedCountryIndex = countryClass.countries.indexOf(country);
+          selectedCityIndex = country.cities.indexOf(city);
+        });
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackbar.buildSnackBar(
+          "Selected ${cityNameSelected!.nameEn}",
+          Colors.green,
+        ),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,12 +80,14 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
         onPressed: () {
           if (selectedCityIndex == -1) {
             ScaffoldMessenger.of(context).showSnackBar(
-              CustomSnackbar.buildSnackBar(AppStrings.pleaseSelectCity),
+              CustomSnackbar.buildSnackBar(
+                AppStrings.pleaseSelectCity,
+                Colors.red,
+              ),
             );
           } else {
-            print(selectedCityIndex);
-            print(cityNameSelected!.nameEn);
             selectedCityIndex = -1;
+            selectedCountryIndex = -1;
             Navigator.of(context).pushNamed("homePage");
           }
         },
@@ -78,6 +104,14 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
             fontWeight: FontWeight.w700,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              openSearch();
+            },
+            icon: Icon(Icons.search_rounded, color: Colors.white, size: 30),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: featchedCountries,
@@ -85,15 +119,20 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: Image.asset(ImagePaths.loading));
           } else if (snapshot.hasError) {
-            return NoDataFoundWidget(error: snapshot.error);
+            return Center(
+              child: Image.asset(
+                ImagePaths.noDataFound,
+                width: 300,
+                height: 300,
+                fit: BoxFit.fill,
+              ),
+            );
           }
           return Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomSearch(),
-                const SizedBox(height: 20),
                 Expanded(
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),

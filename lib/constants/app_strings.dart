@@ -39,4 +39,7 @@ class AppStrings {
   static final String pleaseSelectUnitTemp =
       "Pleas Select Unit Temperature to convert";
   static final String unit = "Unit";
+
+  // Error Widget
+  static final String noDataFound="No Data Found";
 }

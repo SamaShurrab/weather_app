@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/constants/app_strings.dart';
 import 'package:weather_app/constants/image_paths.dart';
-import 'package:weather_app/customWidget/customButton.dart';
+import 'package:weather_app/customWidget/custom_button.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

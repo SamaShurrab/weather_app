@@ -5,7 +5,7 @@ class ImagePaths {
   // Choose City Screen
   static String unchecked = "assets/images/unchecked.png";
   static String checked = "assets/images/checked.png";
-  static String noDataFound = "assets/images/not_data_found.jpg";
+  static String noDataFound = "assets/images/noResultFound.gif";
 
   // HomePage Screen
   static String marker = "assets/images/pin.png";

@@ -3,11 +3,13 @@ import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/constants/app_strings.dart';
 
 class CustomSearch extends StatelessWidget {
-  const CustomSearch({super.key});
+ final void Function(String)? onChanged;
+  const CustomSearch({super.key,required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       style: const TextStyle(
         fontSize: 23,
         color: Colors.black,
