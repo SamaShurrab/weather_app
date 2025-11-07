@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/choose_city_screen.dart';
+import 'package:weather_app/screens/home_page.dart';
 import 'package:weather_app/screens/splash_screen.dart';
 
 void main() {
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: "Nunito"),
       home: const SplashScreen(),
       routes: {
-        "splashScreen": (context) => SplashScreen(),
-        "chooseCityScreen": (context) => ChooseCityScreen(),
+        "splashScreen": (context) => const SplashScreen(),
+        "chooseCityScreen": (context) => const ChooseCityScreen(),
+        "homePage": (context) => const HomePage(),
       },
     );
   }
