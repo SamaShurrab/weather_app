@@ -60,9 +60,9 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
             );
           } else {
             print(selectedCityIndex);
-            selectedCityIndex = -1;
-            // Navigator.of(context).pushNamed("homePage");
             print(cityNameSelected!.nameEn);
+            selectedCityIndex = -1;
+            Navigator.of(context).pushNamed("homePage");
           }
         },
         child: const Icon(Icons.location_on, color: Colors.white, size: 30),
