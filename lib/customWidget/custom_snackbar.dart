@@ -8,7 +8,7 @@ class CustomSnackbar {
       content: Text(
         content,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
       ),
     );
   }

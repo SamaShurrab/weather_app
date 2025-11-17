@@ -15,7 +15,6 @@ class AppStrings {
   static final String maxTemp = "Max Temp";
   static final String humidity = "Humidity";
   static final String today = "Today";
-  static final String next = "Next 7 Days";
   static final String search = "Search";
   static final String apiKeys = "f7fd75238d99072bd8f873ec8a2fef66";
   static final String loading = "Loading....";
@@ -41,5 +40,5 @@ class AppStrings {
   static final String unit = "Unit";
 
   // Error Widget
-  static final String noDataFound="No Data Found";
+  static final String noDataFound = "No Data Found";
 }

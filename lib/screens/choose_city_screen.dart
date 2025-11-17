@@ -22,16 +22,16 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
   Future<List<Country>>? featchedCountries;
   int selectedCityIndex = -1;
   int selectedCountryIndex = -1;
-  City? cityNameSelected;
+  City? citySelected;
 
   /*
   This function assigns the values ​​of the chosen city to variables 
   and will be executed when you click on the city to be selected
   */
-  void onCitySelected(int cityIndexP, City cityNameP, int countryIndexP) {
+  void onCitySelected(int cityIndexP, City citySelectedP, int countryIndexP) {
     setState(() {
       selectedCityIndex = cityIndexP;
-      cityNameSelected = cityNameP;
+      citySelected = citySelectedP;
       selectedCountryIndex = countryIndexP;
     });
   }
@@ -47,14 +47,14 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
         City city = listSearch["city"];
         Country country = listSearch["country"];
         setState(() {
-          cityNameSelected = city;
+          citySelected = city;
           selectedCountryIndex = countryClass.countries.indexOf(country);
           selectedCityIndex = country.cities.indexOf(city);
         });
       });
       ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackbar.buildSnackBar(
-          "Selected ${cityNameSelected!.nameEn}",
+          "Selected ${citySelected!.nameEn}",
           Colors.green,
         ),
       );
@@ -86,9 +86,18 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
               ),
             );
           } else {
+            String countryName = countryClass.countries
+                .elementAt(selectedCountryIndex)
+                .nameEn;
             selectedCityIndex = -1;
             selectedCountryIndex = -1;
-            Navigator.of(context).pushNamed("homePage");
+            Navigator.of(context).pushNamed(
+              "homePage",
+              arguments: {
+                "cityName": citySelected!.nameEn,
+                "countryName": countryName,
+              },
+            );
           }
         },
         child: const Icon(Icons.location_on, color: Colors.white, size: 30),

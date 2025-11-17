@@ -1,8 +1,8 @@
 import 'package:weather_app/constants/app_strings.dart';
 import 'package:weather_app/constants/image_paths.dart';
 
-class Collections {
-  static List<Map<String, dynamic>> weatherInformationList = [
+
+  final List<Map<String, dynamic>> weatherInformationList = [
     {
       "cardName": AppStrings.windSpeed,
       "cardImage": ImagePaths.windSpeed,
@@ -19,4 +19,4 @@ class Collections {
       "cardValue": "temp_max",
     },
   ];
-}
+
