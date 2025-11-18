@@ -11,7 +11,7 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
   @override
   ThemeData appBarTheme(BuildContext context) {
     return Theme.of(context).copyWith(
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         hintStyle: TextStyle(
           fontSize: 20,
           color: Colors.white60,
@@ -36,14 +36,14 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
           onPressed: () {
             query = "";
           },
-          icon: Icon(Icons.search_rounded, color: Colors.white, size: 30),
+          icon: const Icon(Icons.search_rounded, color: Colors.white, size: 30),
         ),
       if (query.isNotEmpty)
         IconButton(
           onPressed: () {
             query = "";
           },
-          icon: Icon(Icons.close_rounded, color: Colors.red, size: 30),
+          icon: const Icon(Icons.close_rounded, color: Colors.red, size: 30),
         ),
     ];
   }
@@ -51,7 +51,7 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
+      icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
       onPressed: () {
         close(context, {});
       },
@@ -114,7 +114,7 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
           ),
           Text(
             "No results found for $query",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               color: Colors.black,
               fontWeight: FontWeight.w600,
@@ -135,7 +135,7 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
           child: SizedBox(
             height: 90,
             child: Card(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
               color: Colors.white,
               elevation: 2,
               shadowColor: Colors.grey,
@@ -143,7 +143,7 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
                 padding: const EdgeInsets.all(20),
                 child: Text(
                   "${country.flag} ${country.nameEn} ,${city.nameEn}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: Colors.black,

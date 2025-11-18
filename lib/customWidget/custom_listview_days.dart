@@ -5,11 +5,13 @@ class CustomListviewDays extends StatelessWidget {
   final String weatherImageCondition;
   final int temp;
   final String unitTemp;
+  final String id;
   const CustomListviewDays({
     super.key,
     required this.weatherImageCondition,
     required this.temp,
     required this.unitTemp,
+    required this.id,
   });
 
   @override

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "splashScreen": (context) => const SplashScreen(),
         "chooseCityScreen": (context) => const ChooseCityScreen(),
-        "homePage": (context) => const HomePage(),
+        "homePage": (context) => const HomePage(cityName: "",countryName: "",),
         "CityWeatherDetailsScreen": (context) => CityWeatherDetailsScreen(),
       },
     );

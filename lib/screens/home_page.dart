@@ -6,9 +6,16 @@ import 'package:weather_app/customWidget/custom_card_weather_condition.dart';
 import 'package:weather_app/customWidget/custom_listview_days.dart';
 import 'package:weather_app/customWidget/custom_row_weather_information.dart';
 import 'package:weather_app/customWidget/dialog_change_temp_unit.dart';
+import 'package:weather_app/model/city_location.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String cityName;
+  final String countryName;
+  const HomePage({
+    super.key,
+    required this.cityName,
+    required this.countryName,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -17,18 +24,33 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  bool isLoading = false;
+  static final String id = "HomePage";
+
+  bool isLoading = true;
   String dayName = DateFormat("EEEE").format(DateTime.now());
   String dayNumber = DateFormat("d").format(DateTime.now());
   String monthName = DateFormat("MMMM").format(DateTime.now());
   String initialUnitTemp = AppStrings.celsiusUnitApi;
+  CityLoction cityLocation = CityLoction();
+
+  void buildData() async {
+    cityLocation.getCityLocation(widget.cityName).then((_) {
+      print("latitude for ${widget.cityName}: ${cityLocation.latitude}");
+      print("longitude for ${widget.cityName}: ${cityLocation.longitude}");
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    buildData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final cityName = args["cityName"];
-    final countryname = args["countryName"];
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -45,19 +67,21 @@ class HomePageState extends State<HomePage> {
                   setState(() {
                     initialUnitTemp = selectedUnit;
                     isLoading = true;
+
                     print("Selected unit: $initialUnitTemp");
                   });
                 }
+                buildData();
               });
             },
-            icon: Icon(Icons.settings_rounded),
+            icon: const Icon(Icons.settings_rounded),
           ),
         ],
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back_ios_rounded),
+          icon: const Icon(Icons.arrow_back_ios_rounded),
         ),
       ),
       body: SingleChildScrollView(
@@ -67,8 +91,8 @@ class HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "$cityName, $countryname",
-                style: TextStyle(
+                "${widget.cityName}, ${widget.countryName}",
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                   color: Colors.black,
@@ -78,7 +102,7 @@ class HomePageState extends State<HomePage> {
                 isLoading
                     ? AppStrings.loading
                     : "$dayName, $dayNumber $monthName",
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black45,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -86,20 +110,24 @@ class HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 70),
               CustomCardWeatherCondition(
+                id: id,
+                height: MediaQuery.heightOf(context) * (20 / 100),
                 weatherConditionImage: ImagePaths.heavyCloud,
-                temp: 50,
+                temp: isLoading ? 0 : 50,
                 tempUnit: AppStrings.celsiusUnit,
-                weatherCondition: AppStrings.windSpeed,
+                weatherCondition: isLoading
+                    ? AppStrings.loading
+                    : AppStrings.windSpeed,
               ),
               const SizedBox(height: 60),
-              CustomRowWeatherInformation(),
+              CustomRowWeatherInformation(isLoading: isLoading, id: id),
               const SizedBox(height: 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     AppStrings.today,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
@@ -108,11 +136,20 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(height: 15),
-              CustomListviewDays(
-                weatherImageCondition: ImagePaths.snow,
-                temp: 15,
-                unitTemp: AppStrings.celsiusUnit,
-              ),
+              isLoading
+                  ? Center(
+                      child: Image.asset(
+                        ImagePaths.loading,
+                        height: 150,
+                        width: 150,
+                      ),
+                    )
+                  : CustomListviewDays(
+                      id: id,
+                      weatherImageCondition: ImagePaths.snow,
+                      temp: 15,
+                      unitTemp: AppStrings.celsiusUnit,
+                    ),
             ],
           ),
         ),

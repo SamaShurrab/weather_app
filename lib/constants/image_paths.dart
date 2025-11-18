@@ -26,4 +26,4 @@ class ImagePaths {
   static String windSpeed = "assets/images/windspeed.png";
   static String loading = "assets/images/loading.gif";
   static String profile = "assets/images/profile.png";
-}
+} // ImagePaths class

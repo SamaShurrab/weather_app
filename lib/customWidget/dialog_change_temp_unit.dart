@@ -20,7 +20,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
     return AlertDialog(
       title: Text(
         AppStrings.changeTemp,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.black,
           fontSize: 21,
           fontWeight: FontWeight.w700,
@@ -35,28 +35,28 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                 flex: 1,
                 child: Text(
                   AppStrings.changeTemp,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: SizedBox(
                   height: 50,
                   child: DropdownButtonFormField<String>(
                     isExpanded: true,
 
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.keyboard_arrow_down_rounded,
                       color: Colors.white,
                       size: 25,
                     ),
                     hint: Text(
                       AppStrings.unit,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
@@ -81,7 +81,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                       ),
                     ),
                     borderRadius: BorderRadius.circular(30),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -93,7 +93,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                             value: tempUnit,
                             child: Text(
                               tempUnit,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,

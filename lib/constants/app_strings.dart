@@ -41,4 +41,8 @@ class AppStrings {
 
   // Error Widget
   static final String noDataFound = "No Data Found";
-}
+
+  // Error Statements
+  static final String noFoundCity = "City not found :";
+  static final String unexpectedError = "Unexpected error";
+} //AppStrings class

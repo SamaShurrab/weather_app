@@ -38,7 +38,7 @@ class BuildCities extends StatelessWidget {
                       width: 25,
                       isSelected ? ImagePaths.checked : ImagePaths.unchecked,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         city.nameEn,
