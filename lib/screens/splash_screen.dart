@@ -5,6 +5,7 @@ import 'package:weather_app/constants/image_paths.dart';
 import 'package:weather_app/customWidget/custom_button.dart';
 
 class SplashScreen extends StatelessWidget {
+  // constructor
   const SplashScreen({super.key});
 
   @override

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
+import 'package:weather_app/helper/time_helper.dart';
+import 'package:weather_app/model/city_location.dart';
 
 class CustomListviewDays extends StatelessWidget {
-  final String weatherImageCondition;
-  final int temp;
+  final Map<String, dynamic> daysIfoMap;
   final String unitTemp;
   final String id;
+  final CityLoction cityLocation;
+  final TimeHelper timeHelper;
+
   const CustomListviewDays({
     super.key,
-    required this.weatherImageCondition,
-    required this.temp,
+    required this.daysIfoMap,
     required this.unitTemp,
     required this.id,
+    required this.cityLocation,
+    required this.timeHelper,
   });
 
   @override
@@ -21,13 +26,14 @@ class CustomListviewDays extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: 7,
+        itemCount: daysIfoMap.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Navigator.of(
-                context,
-              ).pushNamed("CityWeatherDetailsScreen", arguments: "Sunday");
+              Navigator.of(context).pushNamed(
+                "CityWeatherDetailsScreen",
+                arguments: daysIfoMap.keys.elementAt(index),
+              );
             },
             child: SizedBox(
               width: 110,
@@ -35,25 +41,39 @@ class CustomListviewDays extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: Card(
-                  color: index == 1 ? AppColors.secondaryColor : Colors.white,
+                  color: daysIfoMap.keys.elementAt(index) == timeHelper.dayName
+                      ? AppColors.secondaryColor
+                      : Colors.white,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "$temp$unitTemp",
+                        "${daysIfoMap[daysIfoMap.keys.elementAt(index)]["temp"]}$unitTemp",
                         style: TextStyle(
-                          color: index == 1
+                          color:
+                              daysIfoMap.keys.elementAt(index) ==
+                                  timeHelper.dayName
                               ? Colors.white
                               : AppColors.secondaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Image.asset(weatherImageCondition, height: 40, width: 40),
+                      Image.asset(
+                        cityLocation.getImageByweatherTypeCity(
+                          daysIfoMap[daysIfoMap.keys.elementAt(
+                            index,
+                          )]["weatherMain"],
+                        ),
+                        height: 40,
+                        width: 40,
+                      ),
                       Text(
-                        "Sun",
+                        daysIfoMap.keys.elementAt(index),
                         style: TextStyle(
-                          color: index == 1
+                          color:
+                              daysIfoMap.keys.elementAt(index) ==
+                                  timeHelper.dayName
                               ? Colors.white
                               : AppColors.secondaryColor,
                           fontSize: 18,

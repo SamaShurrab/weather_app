@@ -7,6 +7,8 @@ import 'package:weather_app/customWidget/list_view_day_details.dart';
 
 class CityWeatherDetailsScreen extends StatelessWidget {
   static final String id = "CityWeatherDetailsScreen";
+
+  // constructor
   const CityWeatherDetailsScreen({super.key});
 
   @override
@@ -61,12 +63,11 @@ class CityWeatherDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   CustomCardWeatherCondition(
-                    id: id,
                     gradient: LinearGradient(
                       colors: [AppColors.listColor, AppColors.gradiantColor2],
                       begin: AlignmentGeometry.topLeft,
                     ),
-                    height: MediaQuery.heightOf(context) * (30 / 100),
+                    height: MediaQuery.heightOf(context) * (20 / 100),
                     weatherConditionImage: ImagePaths.heavyCloud,
                     temp: 50,
                     tempUnit: AppStrings.celsiusUnit,
@@ -75,7 +76,10 @@ class CityWeatherDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   Expanded(
                     flex: 2,
-                    child: ListViewDayDetails(fulldate: "2 May,Monday",time: "3:00:00 Am",),
+                    child: ListViewDayDetails(
+                      fulldate: "2 May,Monday",
+                      time: "3:00:00 Am",
+                    ),
                   ),
                 ],
               ),
@@ -84,5 +88,5 @@ class CityWeatherDetailsScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
+  } //build()
+} // CityWeatherDetailsScreen class

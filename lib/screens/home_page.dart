@@ -6,11 +6,15 @@ import 'package:weather_app/customWidget/custom_card_weather_condition.dart';
 import 'package:weather_app/customWidget/custom_listview_days.dart';
 import 'package:weather_app/customWidget/custom_row_weather_information.dart';
 import 'package:weather_app/customWidget/dialog_change_temp_unit.dart';
+import 'package:weather_app/helper/api_helper.dart';
+import 'package:weather_app/helper/time_helper.dart';
 import 'package:weather_app/model/city_location.dart';
 
 class HomePage extends StatefulWidget {
   final String cityName;
   final String countryName;
+
+  // constructor
   const HomePage({
     super.key,
     required this.cityName,
@@ -20,34 +24,91 @@ class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return HomePageState();
-  }
-}
+  } //createState()
+} // HomePage class
 
 class HomePageState extends State<HomePage> {
   static final String id = "HomePage";
-
   bool isLoading = true;
-  String dayName = DateFormat("EEEE").format(DateTime.now());
-  String dayNumber = DateFormat("d").format(DateTime.now());
-  String monthName = DateFormat("MMMM").format(DateTime.now());
+
   String initialUnitTemp = AppStrings.celsiusUnitApi;
   CityLoction cityLocation = CityLoction();
+  Map<String, dynamic> weatherApiMap = {};
+  Map<String, dynamic> weatherMap = {};
+  TimeHelper timeHelper = TimeHelper();
+  Map<String, dynamic> daysIfoMap = {};
 
-  void buildData() async {
-    cityLocation.getCityLocation(widget.cityName).then((_) {
-      print("latitude for ${widget.cityName}: ${cityLocation.latitude}");
-      print("longitude for ${widget.cityName}: ${cityLocation.longitude}");
+  void buildMapDayInfo() {
+    for (var entry in weatherMap.entries) {
+      String dayName = DateFormat("EEE").format(DateTime.parse(entry.key));
+      if (!daysIfoMap.containsKey(dayName)) {
+        daysIfoMap[dayName] = {
+          "temp": weatherMap[entry.key]["temp"],
+          "weatherMain": weatherMap[entry.key]["weatherMain"],
+        };
+      }
+    } //for()
+  } //buildMapDayInfo()
+
+  void buildWeatherMap() {
+    if (weatherApiMap["list"].isEmpty) {
+      print(AppStrings.failedLoadData);
+    } else {
+      for (int i = 0; i < weatherApiMap["list"].length; i++) {
+        final int dt = weatherApiMap["list"][i]["dt"];
+        final String dtTxtKey = weatherApiMap["list"][i]["dt_txt"];
+        if (!weatherMap.containsKey(dtTxtKey)) {
+          weatherMap[dtTxtKey] = {
+            "temp": weatherApiMap["list"][i]["main"]["temp"],
+            "temp_max": weatherApiMap["list"][i]["main"]["temp_max"],
+            "humidity": weatherApiMap["list"][i]["main"]["humidity"],
+            "weatherMain": weatherApiMap["list"][i]["weather"][0]["main"],
+
+            "windSpeed": weatherApiMap["list"][i]["wind"]["speed"],
+            "dayName": timeHelper.getDayName(dt),
+          };
+        } //if()
+      } //for()
+    } //else
+  } //buildWeatherMap()
+
+  Future<void> buildWeatherApiMap() async {
+    setState(() {
+      weatherApiMap = {};
+      weatherMap = {};
+      isLoading = true;
+    });
+    await cityLocation.getCityLocation(widget.cityName);
+    print("latitude for ${widget.cityName}: ${cityLocation.latitude}");
+    print("longitude for ${widget.cityName}: ${cityLocation.longitude}");
+    if (cityLocation.latitude == 0 || cityLocation.longitude == 0) {
+      Future.error(AppStrings.invalidCoordinates);
+    } else {
+      String urlApi =
+          "https://api.openweathermap.org/data/2.5/forecast?lat=${cityLocation.latitude}&lon=${cityLocation.longitude}&appid=${AppStrings.apiKeys}&units=$initialUnitTemp";
+      weatherApiMap = await ApiHelper.getData(
+        cityLocation.latitude,
+        cityLocation.longitude,
+        urlApi,
+      );
       setState(() {
         isLoading = false;
       });
-    });
-  }
+    }
+  } //buildData()
 
   @override
   void initState() {
     super.initState();
-    buildData();
-  }
+    buildWeatherApiMap().then((_) {
+      buildWeatherMap();
+      buildMapDayInfo();
+      timeHelper.getNearestTime();
+      timeHelper.buildCurrentDtTxt();
+      print(timeHelper.buildCurrentDtTxt());
+      print(timeHelper.currentDtTxt);
+    });
+  } //initState()
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +116,23 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               showDialog<String>(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) {
                   return DialogChangeTempUnit();
                 },
-              ).then((String? selectedUnit) {
+              ).then((String? selectedUnit) async {
                 if (selectedUnit != null) {
                   setState(() {
                     initialUnitTemp = selectedUnit;
                     isLoading = true;
-
                     print("Selected unit: $initialUnitTemp");
                   });
                 }
-                buildData();
+                await buildWeatherApiMap();
+                buildWeatherMap();
               });
             },
             icon: const Icon(Icons.settings_rounded),
@@ -101,7 +162,7 @@ class HomePageState extends State<HomePage> {
               Text(
                 isLoading
                     ? AppStrings.loading
-                    : "$dayName, $dayNumber $monthName",
+                    : "${timeHelper.dayNameFull}, ${timeHelper.dayNumber} ${timeHelper.monthName}",
                 style: const TextStyle(
                   color: Colors.black45,
                   fontSize: 15,
@@ -110,17 +171,38 @@ class HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 70),
               CustomCardWeatherCondition(
-                id: id,
                 height: MediaQuery.heightOf(context) * (20 / 100),
-                weatherConditionImage: ImagePaths.heavyCloud,
-                temp: isLoading ? 0 : 50,
-                tempUnit: AppStrings.celsiusUnit,
-                weatherCondition: isLoading
+                weatherConditionImage:
+                    isLoading ||
+                        timeHelper.currentDtTxt.isEmpty ||
+                        weatherMap.isEmpty
+                    ? ImagePaths.loading
+                    : cityLocation.getImageByweatherTypeCity(
+                        weatherMap[timeHelper.currentDtTxt]["weatherMain"],
+                      ),
+                temp:
+                    isLoading ||
+                        timeHelper.currentDtTxt.isEmpty ||
+                        weatherMap.isEmpty
+                    ? 0
+                    : weatherMap[timeHelper.currentDtTxt]["temp"],
+                tempUnit: initialUnitTemp == AppStrings.celsiusUnitApi
+                    ? AppStrings.celsiusUnit
+                    : AppStrings.fahrenheitUnit,
+                weatherCondition:
+                    isLoading ||
+                        timeHelper.currentDtTxt.isEmpty ||
+                        weatherMap.isEmpty
                     ? AppStrings.loading
-                    : AppStrings.windSpeed,
+                    : weatherMap[timeHelper.currentDtTxt]["weatherMain"],
               ),
               const SizedBox(height: 60),
-              CustomRowWeatherInformation(isLoading: isLoading, id: id),
+              CustomRowWeatherInformation(
+                currentDtTxt: timeHelper.currentDtTxt,
+                isLoading: isLoading,
+                id: id,
+                weatherMap: weatherMap,
+              ),
               const SizedBox(height: 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,15 +227,18 @@ class HomePageState extends State<HomePage> {
                       ),
                     )
                   : CustomListviewDays(
+                      timeHelper: timeHelper,
+                      cityLocation: cityLocation,
                       id: id,
-                      weatherImageCondition: ImagePaths.snow,
-                      temp: 15,
-                      unitTemp: AppStrings.celsiusUnit,
+                      daysIfoMap: daysIfoMap,
+                      unitTemp: initialUnitTemp == AppStrings.celsiusUnitApi
+                          ? AppStrings.celsiusUnit
+                          : AppStrings.fahrenheitUnit,
                     ),
             ],
           ),
         ),
       ),
     );
-  }
-}
+  } //build()
+} //  HomePageState class

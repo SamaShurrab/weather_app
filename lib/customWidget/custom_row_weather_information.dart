@@ -7,11 +7,15 @@ class CustomRowWeatherInformation extends StatelessWidget {
   final int length = 3;
   final String id;
   final bool isLoading;
+  final Map<String, dynamic> weatherMap;
+  final String currentDtTxt;
 
   const CustomRowWeatherInformation({
     super.key,
     required this.isLoading,
     required this.id,
+    required this.weatherMap,
+    required this.currentDtTxt,
   });
 
   @override
@@ -46,7 +50,9 @@ class CustomRowWeatherInformation extends StatelessWidget {
               ),
             ),
             Text(
-              isLoading ? "0" : "2km/h",
+              isLoading
+                  ? "0"
+                  : "${weatherMap[currentDtTxt][weatherInformationList[index]["cardValue"]]}${weatherInformationList[index]["unit"]}",
               style: TextStyle(
                 color: id == HomePageState.id ? Colors.black : Colors.white,
                 fontSize: 13,

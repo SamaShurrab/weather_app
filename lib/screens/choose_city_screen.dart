@@ -10,6 +10,7 @@ import 'package:weather_app/model/country_class.dart';
 import 'package:weather_app/screens/home_page.dart';
 
 class ChooseCityScreen extends StatefulWidget {
+  // constructor
   const ChooseCityScreen({super.key});
 
   @override
@@ -35,7 +36,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
       citySelected = citySelectedP;
       selectedCountryIndex = countryIndexP;
     });
-  }
+  } //onCitySelected()
 
   void openSearch() async {
     final Map<String, dynamic>? listSearch = await showSearch(
@@ -59,8 +60,8 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
           Colors.green,
         ),
       );
-    }
-  }
+    } //if()
+  } // openSearch()
 
   @override
   void initState() {
@@ -70,7 +71,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
     you open the screen through the Package uni_country_city_picker
     */
     featchedCountries = countryClass.getAllCountries();
-  }
+  } //initState()
 
   @override
   Widget build(BuildContext context) {

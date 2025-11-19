@@ -45,4 +45,6 @@ class AppStrings {
   // Error Statements
   static final String noFoundCity = "City not found :";
   static final String unexpectedError = "Unexpected error";
+  static final String failedLoadData = "Failed to load data. Status code:";
+  static final String invalidCoordinates = "Invalid Coordinates";
 } //AppStrings class

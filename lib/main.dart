@@ -7,7 +7,7 @@ import 'package:weather_app/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
-}
+} //main()
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
       routes: {
         "splashScreen": (context) => const SplashScreen(),
         "chooseCityScreen": (context) => const ChooseCityScreen(),
-        "homePage": (context) => const HomePage(cityName: "",countryName: "",),
+        "homePage": (context) => const HomePage(cityName: "", countryName: ""),
         "CityWeatherDetailsScreen": (context) => CityWeatherDetailsScreen(),
       },
     );
-  }
-}
+  } // build()
+} // MyApp class

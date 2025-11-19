@@ -11,4 +11,4 @@ class CountryClass {
     } //if()
     return countries;
   } //getAllCountries ()
-} //getAllCitiesByCountryName()
+} //CountryClass()
