@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
-import 'package:weather_app/constants/app_strings.dart';
-import 'package:weather_app/constants/image_paths.dart';
 import 'package:weather_app/customWidget/custom_card_weather_condition.dart';
 import 'package:weather_app/customWidget/list_view_day_details.dart';
+import 'package:weather_app/model/city_location.dart';
 
 class CityWeatherDetailsScreen extends StatelessWidget {
-  static final String id = "CityWeatherDetailsScreen";
+  final CityLoction cityLoction;
+  final Map<String, dynamic> daysIfoMap;
+  final String daySelected;
+  final String unitTemp;
+  final String dayNamefull;
 
   // constructor
-  const CityWeatherDetailsScreen({super.key});
+  const CityWeatherDetailsScreen({
+    super.key,
+    required this.cityLoction,
+    required this.daysIfoMap,
+    required this.daySelected,
+    required this.unitTemp,
+    required this.dayNamefull,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final String daySelected =
-        ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       backgroundColor: AppColors.secondaryColor,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         backgroundColor: AppColors.secondaryColor,
         title: Text(
-          daySelected,
+          dayNamefull,
           style: const TextStyle(
             fontSize: 23,
             color: Colors.white,
@@ -59,7 +67,7 @@ class CityWeatherDetailsScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 65),
               child: Column(
                 children: [
                   CustomCardWeatherCondition(
@@ -68,17 +76,21 @@ class CityWeatherDetailsScreen extends StatelessWidget {
                       begin: AlignmentGeometry.topLeft,
                     ),
                     height: MediaQuery.heightOf(context) * (20 / 100),
-                    weatherConditionImage: ImagePaths.heavyCloud,
-                    temp: 50,
-                    tempUnit: AppStrings.celsiusUnit,
-                    weatherCondition: AppStrings.windSpeed,
+                    weatherConditionImage: cityLoction
+                        .getImageByweatherTypeCity(
+                          daysIfoMap[daySelected][0]["weatherMain"],
+                        ),
+                    temp: daysIfoMap[daySelected][0]["temp"],
+                    tempUnit: unitTemp,
+                    weatherCondition: daysIfoMap[daySelected][0]["weatherMain"],
                   ),
                   const SizedBox(height: 20),
                   Expanded(
                     flex: 2,
                     child: ListViewDayDetails(
-                      fulldate: "2 May,Monday",
-                      time: "3:00:00 Am",
+                      daySelected: daySelected,
+                      weatherMap: daysIfoMap,
+                      cityLoction: cityLoction,
                     ),
                   ),
                 ],

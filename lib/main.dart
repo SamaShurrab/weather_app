@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/screens/choose_city_screen.dart';
-import 'package:weather_app/screens/city_weather_details_screen.dart';
 import 'package:weather_app/screens/home_page.dart';
 import 'package:weather_app/screens/splash_screen.dart';
 
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
         "splashScreen": (context) => const SplashScreen(),
         "chooseCityScreen": (context) => const ChooseCityScreen(),
         "homePage": (context) => const HomePage(cityName: "", countryName: ""),
-        "CityWeatherDetailsScreen": (context) => CityWeatherDetailsScreen(),
       },
     );
   } // build()

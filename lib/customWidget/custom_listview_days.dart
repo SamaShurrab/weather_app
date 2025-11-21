@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/helper/time_helper.dart';
 import 'package:weather_app/model/city_location.dart';
+import 'package:weather_app/screens/city_weather_details_screen.dart';
 
 class CustomListviewDays extends StatelessWidget {
   final Map<String, dynamic> daysIfoMap;
@@ -30,9 +31,21 @@ class CustomListviewDays extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                "CityWeatherDetailsScreen",
-                arguments: daysIfoMap.keys.elementAt(index),
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return CityWeatherDetailsScreen(
+                      unitTemp: unitTemp,
+                      cityLoction: cityLocation,
+                      dayNamefull:
+                          daysIfoMap[daysIfoMap.keys.elementAt(
+                            index,
+                          )][0]["dayFullName"],
+                      daySelected: daysIfoMap.keys.elementAt(index),
+                      daysIfoMap: daysIfoMap,
+                    );
+                  },
+                ),
               );
             },
             child: SizedBox(
@@ -48,7 +61,7 @@ class CustomListviewDays extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "${daysIfoMap[daysIfoMap.keys.elementAt(index)]["temp"]}$unitTemp",
+                        "${daysIfoMap[daysIfoMap.keys.elementAt(index)][0]["temp"]}$unitTemp",
                         style: TextStyle(
                           color:
                               daysIfoMap.keys.elementAt(index) ==
@@ -63,7 +76,7 @@ class CustomListviewDays extends StatelessWidget {
                         cityLocation.getImageByweatherTypeCity(
                           daysIfoMap[daysIfoMap.keys.elementAt(
                             index,
-                          )]["weatherMain"],
+                          )][0]["weatherMain"],
                         ),
                         height: 40,
                         width: 40,

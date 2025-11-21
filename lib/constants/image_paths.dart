@@ -26,4 +26,8 @@ class ImagePaths {
   static String windSpeed = "assets/images/windspeed.png";
   static String loading = "assets/images/loading.gif";
   static String profile = "assets/images/profile.png";
+
+  // City Weather Details Screen
+  static String am = "assets/images/am.png";
+  static String pm = "assets/images/pm.png";
 } // ImagePaths class

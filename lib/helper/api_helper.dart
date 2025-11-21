@@ -28,4 +28,6 @@ class ApiHelper {
 
     return weatherDataMap;
   } //getData()
+
+  
 } //ApiHelper class
