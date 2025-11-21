@@ -33,7 +33,7 @@ class HomePageState extends State<HomePage> {
   static final String id = "HomePage";
   bool isLoading = true;
   String initialUnitTemp = AppStrings.celsiusUnitApi;
-  CityLoction cityLocation = CityLoction();
+  CityLocation cityLocation = CityLocation();
   Map<String, dynamic> weatherApiMap = {};
   Map<String, dynamic> weatherMap = {};
   TimeHelper timeHelper = TimeHelper();
@@ -59,8 +59,8 @@ class HomePageState extends State<HomePage> {
   } //buildMapDayInfo()
 
   void buildWeatherMap() {
-    if (weatherApiMap["list"].isEmpty) {
-      print(AppStrings.failedLoadData);
+    if (weatherApiMap["list"] == null || weatherApiMap["list"].isEmpty) {
+      throw Exception(AppStrings.failedLoadData);
     } else {
       for (int i = 0; i < weatherApiMap["list"].length; i++) {
         final int dt = weatherApiMap["list"][i]["dt"];
@@ -91,7 +91,7 @@ class HomePageState extends State<HomePage> {
       print("latitude for ${widget.cityName}: ${cityLocation.latitude}");
       print("longitude for ${widget.cityName}: ${cityLocation.longitude}");
       if (cityLocation.latitude == 0 || cityLocation.longitude == 0) {
-        Future.error(AppStrings.invalidCoordinates);
+        throw Exception(AppStrings.invalidCoordinates);
       } else {
         String urlApi =
             "https://api.openweathermap.org/data/2.5/forecast?lat=${cityLocation.latitude}&lon=${cityLocation.longitude}&appid=${AppStrings.apiKeys}&units=$initialUnitTemp";
@@ -113,10 +113,12 @@ class HomePageState extends State<HomePage> {
         isLoading = false;
       });
 
-      Future.error("Failed to fetch weather data: $error");
+      throw Exception("Failed to fetch weather data: $error");
     }
   } //buildWeatherApiMap()
 
+  bool get isDataLoading =>
+      isLoading || timeHelper.currentDtTxt.isEmpty || weatherMap.isEmpty;
   @override
   void initState() {
     super.initState();
@@ -187,7 +189,7 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
                   Text(
-                    isLoading
+                    isDataLoading
                         ? AppStrings.loading
                         : "${timeHelper.dayNameFull}, ${timeHelper.dayNumber} ${timeHelper.monthName}",
                     style: const TextStyle(
@@ -198,28 +200,19 @@ class HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 70),
                   CustomCardWeatherCondition(
-                    height: MediaQuery.heightOf(context) * (20 / 100),
-                    weatherConditionImage:
-                        isLoading ||
-                            timeHelper.currentDtTxt.isEmpty ||
-                            weatherMap.isEmpty
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    weatherConditionImage: isDataLoading
                         ? ImagePaths.loading
                         : cityLocation.getImageByweatherTypeCity(
                             weatherMap[timeHelper.currentDtTxt]["weatherMain"],
                           ),
-                    temp:
-                        isLoading ||
-                            timeHelper.currentDtTxt.isEmpty ||
-                            weatherMap.isEmpty
+                    temp: isDataLoading
                         ? 0
                         : weatherMap[timeHelper.currentDtTxt]["temp"],
                     tempUnit: initialUnitTemp == AppStrings.celsiusUnitApi
                         ? AppStrings.celsiusUnit
                         : AppStrings.fahrenheitUnit,
-                    weatherCondition:
-                        isLoading ||
-                            timeHelper.currentDtTxt.isEmpty ||
-                            weatherMap.isEmpty
+                    weatherCondition: isDataLoading
                         ? AppStrings.loading
                         : weatherMap[timeHelper.currentDtTxt]["weatherMain"],
                   ),
@@ -227,7 +220,6 @@ class HomePageState extends State<HomePage> {
                   CustomRowWeatherInformation(
                     currentDtTxt: timeHelper.currentDtTxt,
                     isLoading: isLoading,
-                    id: id,
                     weatherMap: weatherMap,
                   ),
                   const SizedBox(height: 60),
@@ -256,7 +248,6 @@ class HomePageState extends State<HomePage> {
                       : CustomListviewDays(
                           timeHelper: timeHelper,
                           cityLocation: cityLocation,
-                          id: id,
                           daysIfoMap: daysIfoMap,
                           unitTemp: initialUnitTemp == AppStrings.celsiusUnitApi
                               ? AppStrings.celsiusUnit

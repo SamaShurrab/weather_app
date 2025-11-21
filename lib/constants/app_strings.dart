@@ -5,7 +5,7 @@ class AppStrings {
 
   // Choose City Screen
   static final String selectCities = "Select City";
-  static final String citiesNotFound = "No Cities Found";
+  static final String citiesNotFound = "Failed to load countries and cities:";
   static final String pleaseSelectCity = "Please select a city";
   static final String hint = "Enter City Name";
 
@@ -32,6 +32,7 @@ class AppStrings {
 
   // Change Unit Temperature dialog
   static final String changeTemp = "Change Unit of Temperature";
+  static final String selectUnit = "Choose Unit:";
   static final String tempUnitStr = "Temperature Unit";
   static final String cancel = "Cancel";
   static final String convert = "Convert";
@@ -47,4 +48,8 @@ class AppStrings {
   static final String unexpectedError = "Unexpected error";
   static final String failedLoadData = "Failed to load data. Status code:";
   static final String invalidCoordinates = "Invalid Coordinates";
+
+  // UnknownRoute
+  static String pageNotFound = "Page Not Found";
+  static String errorDescription = "The page you're looking for doesn't exist.";
 } //AppStrings class

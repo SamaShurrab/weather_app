@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/constants/collections.dart';
-import 'package:weather_app/screens/home_page.dart';
 
 class CustomRowWeatherInformation extends StatelessWidget {
-  final int length = 3;
-  final String id;
   final bool isLoading;
   final Map<String, dynamic> weatherMap;
   final String currentDtTxt;
@@ -13,22 +10,25 @@ class CustomRowWeatherInformation extends StatelessWidget {
   const CustomRowWeatherInformation({
     super.key,
     required this.isLoading,
-    required this.id,
     required this.weatherMap,
     required this.currentDtTxt,
   });
+  String getWeatherValue(int index) {
+    final String cardValue = weatherInformationList[index]["cardValue"];
+    final String value = weatherMap[currentDtTxt]?[cardValue].toString() ?? "0";
+    final String unit = weatherInformationList[index]["unit"];
+    return "$value$unit";
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(length, (int index) {
+      children: List.generate(weatherInformationList.length, (int index) {
         return Column(
           children: [
             Text(
-              id == HomePageState.id
-                  ? weatherInformationList[index]["cardName"]
-                  : "",
+              weatherInformationList[index]["cardName"],
               style: const TextStyle(
                 color: Colors.black45,
                 fontSize: 13,
@@ -50,11 +50,9 @@ class CustomRowWeatherInformation extends StatelessWidget {
               ),
             ),
             Text(
-              isLoading
-                  ? "0"
-                  : "${weatherMap[currentDtTxt][weatherInformationList[index]["cardValue"]]}${weatherInformationList[index]["unit"]}",
+              isLoading ? "0" : getWeatherValue(index),
               style: TextStyle(
-                color: id == HomePageState.id ? Colors.black : Colors.white,
+                color: Colors.black,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
               ),

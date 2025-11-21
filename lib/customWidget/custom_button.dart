@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/app_colors.dart';
 
-class Custombutton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final void Function() onPressed;
   final String buttonText;
   final double horizontalPadding;
-  const Custombutton({
+  const CustomButton({
     super.key,
     required this.onPressed,
     required this.buttonText,

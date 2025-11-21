@@ -5,8 +5,16 @@ import 'package:weather_app/constants/image_paths.dart';
 
 class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
   List<Country> countries;
+  late final List<City> allCities;
 
-  CitySearchDelegate({required this.countries});
+  CitySearchDelegate({required this.countries}) {
+    allCities = [];
+    
+    // to add all cities for all country
+    for (Country country in countries) {
+      allCities.addAll(country.cities);
+    }
+  }
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -88,13 +96,6 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
   }
 
   Widget buildSearchResult() {
-    final List<City> allCities = [];
-
-    // to add all cities for all country
-    for (Country country in countries) {
-      allCities.addAll(country.cities);
-    }
-
     final searchResult = query.isEmpty
         ? allCities
         : allCities.where((city) {
@@ -127,27 +128,27 @@ class CitySearchDelegate extends SearchDelegate<Map<String, dynamic>> {
       itemCount: searchResult.length,
       itemBuilder: (context, cityIndex) {
         final City city = searchResult[cityIndex];
-        final Country country = findCountryForCity(city)!;
+        final Country? country = findCountryForCity(city);
+        if (country == null) {
+          return const SizedBox();
+        }
         return InkWell(
           onTap: () {
             close(context, {"city": city, "country": country});
           },
-          child: SizedBox(
-            height: 90,
-            child: Card(
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-              color: Colors.white,
-              elevation: 2,
-              shadowColor: Colors.grey,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  "${country.flag} ${country.nameEn} ,${city.nameEn}",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            color: Colors.white,
+            elevation: 2,
+            shadowColor: Colors.grey,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                "${country.flag} ${country.nameEn} ,${city.nameEn}",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
               ),
             ),

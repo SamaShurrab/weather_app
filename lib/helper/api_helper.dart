@@ -19,7 +19,8 @@ class ApiHelper {
       if (response.statusCode == 200) {
         weatherDataMap = jsonDecode(response.body);
         return weatherDataMap;
-      } else {
+      } 
+      else {
         Future.error("${AppStrings.failedLoadData}${response.statusCode}");
       }
     } catch (error) {

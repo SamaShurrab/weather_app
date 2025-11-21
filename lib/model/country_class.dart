@@ -7,8 +7,12 @@ class CountryClass {
 
   Future<List<Country>> getAllCountries() async {
     if (countries.isEmpty) {
-      countries = await UniCountryServices.instance.getCountriesAndCities();
+      try {
+        countries = await UniCountryServices.instance.getCountriesAndCities();
+      } catch (error) {
+        return Future.error(error);
+      }
     } //if()
-    return countries;
+    return List.from(countries);
   } //getAllCountries ()
 } //CountryClass()

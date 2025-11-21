@@ -34,7 +34,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  AppStrings.changeTemp,
+                  AppStrings.selectUnit,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -117,32 +117,41 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
 
       actionsAlignment: MainAxisAlignment.center,
       actions: [
-        Custombutton(
-          buttonText: AppStrings.convert,
-          onPressed: () {
-            if (selectedUnit == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                CustomSnackbar.buildSnackBar(
-                  AppStrings.pleaseSelectUnitTemp,
-                  Colors.red,
-                ),
-              );
-            } else {
-              final String unitForApi = selectedUnit == AppStrings.fahrenheit
-                  ? AppStrings.fahrenheitUnitApi
-                  : AppStrings.celsiusUnitApi;
+        Row(
+          children: [
+            Expanded(
+              child: CustomButton(
+                buttonText: AppStrings.convert,
+                onPressed: () {
+                  if (selectedUnit == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      CustomSnackbar.buildSnackBar(
+                        AppStrings.pleaseSelectUnitTemp,
+                        Colors.red,
+                      ),
+                    );
+                  } else {
+                    final String unitForApi =
+                        selectedUnit == AppStrings.fahrenheit
+                        ? AppStrings.fahrenheitUnitApi
+                        : AppStrings.celsiusUnitApi;
 
-              Navigator.of(context).pop(unitForApi);
-            }
-          },
-          horizontalPadding: 30,
-        ),
-        Custombutton(
-          horizontalPadding: 30,
-          buttonText: AppStrings.cancel,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+                    Navigator.of(context).pop(unitForApi);
+                  }
+                },
+                horizontalPadding: 30,
+              ),
+            ),
+            Expanded(
+              child: CustomButton(
+                horizontalPadding: 30,
+                buttonText: AppStrings.cancel,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );

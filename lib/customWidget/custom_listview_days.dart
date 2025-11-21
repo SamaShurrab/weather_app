@@ -7,15 +7,13 @@ import 'package:weather_app/screens/city_weather_details_screen.dart';
 class CustomListviewDays extends StatelessWidget {
   final Map<String, dynamic> daysIfoMap;
   final String unitTemp;
-  final String id;
-  final CityLoction cityLocation;
+  final CityLocation cityLocation;
   final TimeHelper timeHelper;
 
   const CustomListviewDays({
     super.key,
     required this.daysIfoMap,
     required this.unitTemp,
-    required this.id,
     required this.cityLocation,
     required this.timeHelper,
   });
@@ -29,6 +27,10 @@ class CustomListviewDays extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: daysIfoMap.length,
         itemBuilder: (context, index) {
+          final String currentDay = daysIfoMap.keys.elementAt(index);
+          final bool isToday =
+             currentDay == timeHelper.dayName;
+          final Map<String, dynamic> dayData = daysIfoMap[currentDay][0];
           return InkWell(
             onTap: () {
               Navigator.of(context).push(
@@ -36,12 +38,9 @@ class CustomListviewDays extends StatelessWidget {
                   builder: (context) {
                     return CityWeatherDetailsScreen(
                       unitTemp: unitTemp,
-                      cityLoction: cityLocation,
-                      dayNamefull:
-                          daysIfoMap[daysIfoMap.keys.elementAt(
-                            index,
-                          )][0]["dayFullName"],
-                      daySelected: daysIfoMap.keys.elementAt(index),
+                      cityLocation: cityLocation,
+                      dayNamefull: dayData["dayFullName"],
+                      daySelected: currentDay,
                       daysIfoMap: daysIfoMap,
                     );
                   },
@@ -54,18 +53,14 @@ class CustomListviewDays extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: Card(
-                  color: daysIfoMap.keys.elementAt(index) == timeHelper.dayName
-                      ? AppColors.secondaryColor
-                      : Colors.white,
+                  color: isToday ? AppColors.secondaryColor : Colors.white,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "${daysIfoMap[daysIfoMap.keys.elementAt(index)][0]["temp"]}$unitTemp",
+                        "${dayData["temp"]}$unitTemp",
                         style: TextStyle(
-                          color:
-                              daysIfoMap.keys.elementAt(index) ==
-                                  timeHelper.dayName
+                          color: isToday
                               ? Colors.white
                               : AppColors.secondaryColor,
                           fontSize: 18,
@@ -74,19 +69,15 @@ class CustomListviewDays extends StatelessWidget {
                       ),
                       Image.asset(
                         cityLocation.getImageByweatherTypeCity(
-                          daysIfoMap[daysIfoMap.keys.elementAt(
-                            index,
-                          )][0]["weatherMain"],
+                          dayData["weatherMain"],
                         ),
                         height: 40,
                         width: 40,
                       ),
                       Text(
-                        daysIfoMap.keys.elementAt(index),
+                        currentDay,
                         style: TextStyle(
-                          color:
-                              daysIfoMap.keys.elementAt(index) ==
-                                  timeHelper.dayName
+                          color: isToday
                               ? Colors.white
                               : AppColors.secondaryColor,
                           fontSize: 18,

@@ -3,6 +3,7 @@ import 'package:weather_app/constants/app_colors.dart';
 import 'package:weather_app/screens/choose_city_screen.dart';
 import 'package:weather_app/screens/home_page.dart';
 import 'package:weather_app/screens/splash_screen.dart';
+import 'package:weather_app/screens/un_known_route_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,15 @@ class MyApp extends StatelessWidget {
       routes: {
         "splashScreen": (context) => const SplashScreen(),
         "chooseCityScreen": (context) => const ChooseCityScreen(),
-        "homePage": (context) => const HomePage(cityName: "", countryName: ""),
+        "homePage": (context) =>
+            const HomePage(cityName: "City", countryName: "Country"),
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) {
+            return const UnKnownRouteScreen();
+          },
+        );
       },
     );
   } // build()

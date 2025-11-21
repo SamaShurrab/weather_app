@@ -33,7 +33,7 @@ class CustomCardWeatherCondition extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: AppColors.primaryColor,
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
                 blurRadius: 3,
               ),
             ],
@@ -45,7 +45,7 @@ class CustomCardWeatherCondition extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Align(
-                  alignment: AlignmentGeometry.topRight,
+                  alignment: Alignment.topRight,
                   child: Text(
                     "$temp$tempUnit",
                     style: const TextStyle(

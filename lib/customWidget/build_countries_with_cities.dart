@@ -38,9 +38,7 @@ class BuildCountriesWithCities extends StatelessWidget {
             return BuildCities(
               cityIndex: cityIndex,
               city: city,
-              onTap: () {
-                onCitySelected(cityIndex, city, countryIndex);
-              },
+              onTap: () => onCitySelected(cityIndex, city, countryIndex),
               isSelected: isSelected,
             );
           },

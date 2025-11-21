@@ -5,7 +5,7 @@ import 'package:weather_app/customWidget/list_view_day_details.dart';
 import 'package:weather_app/model/city_location.dart';
 
 class CityWeatherDetailsScreen extends StatelessWidget {
-  final CityLoction cityLoction;
+  final CityLocation cityLocation;
   final Map<String, dynamic> daysIfoMap;
   final String daySelected;
   final String unitTemp;
@@ -14,7 +14,7 @@ class CityWeatherDetailsScreen extends StatelessWidget {
   // constructor
   const CityWeatherDetailsScreen({
     super.key,
-    required this.cityLoction,
+    required this.cityLocation,
     required this.daysIfoMap,
     required this.daySelected,
     required this.unitTemp,
@@ -23,6 +23,7 @@ class CityWeatherDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final daySelectedList = daysIfoMap[daySelected][0];
     return Scaffold(
       backgroundColor: AppColors.secondaryColor,
       appBar: AppBar(
@@ -51,12 +52,12 @@ class CityWeatherDetailsScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: Stack(
-          alignment: AlignmentGeometry.bottomCenter,
+          alignment: Alignment.bottomCenter,
           children: [
             Positioned(
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.heightOf(context) * (70 / 100),
+                height: MediaQuery.of(context).size.height * 0.7,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -73,16 +74,16 @@ class CityWeatherDetailsScreen extends StatelessWidget {
                   CustomCardWeatherCondition(
                     gradient: LinearGradient(
                       colors: [AppColors.listColor, AppColors.gradiantColor2],
-                      begin: AlignmentGeometry.topLeft,
+                      begin: Alignment.topLeft,
                     ),
-                    height: MediaQuery.heightOf(context) * (20 / 100),
-                    weatherConditionImage: cityLoction
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    weatherConditionImage: cityLocation
                         .getImageByweatherTypeCity(
-                          daysIfoMap[daySelected][0]["weatherMain"],
+                          daySelectedList["weatherMain"],
                         ),
-                    temp: daysIfoMap[daySelected][0]["temp"],
+                    temp: daySelectedList["temp"],
                     tempUnit: unitTemp,
-                    weatherCondition: daysIfoMap[daySelected][0]["weatherMain"],
+                    weatherCondition: daySelectedList["weatherMain"],
                   ),
                   const SizedBox(height: 20),
                   Expanded(
@@ -90,7 +91,7 @@ class CityWeatherDetailsScreen extends StatelessWidget {
                     child: ListViewDayDetails(
                       daySelected: daySelected,
                       weatherMap: daysIfoMap,
-                      cityLoction: cityLoction,
+                      cityLocation: cityLocation,
                     ),
                   ),
                 ],

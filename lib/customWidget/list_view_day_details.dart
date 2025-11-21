@@ -7,13 +7,13 @@ import 'package:weather_app/model/city_location.dart';
 class ListViewDayDetails extends StatelessWidget {
   final String daySelected;
   final Map<String, dynamic> weatherMap;
-  final CityLoction cityLoction;
+  final CityLocation cityLocation;
 
   const ListViewDayDetails({
     super.key,
     required this.daySelected,
     required this.weatherMap,
-    required this.cityLoction,
+    required this.cityLocation,
   });
 
   String putTimePeriodImage(int time) {
@@ -30,7 +30,9 @@ class ListViewDayDetails extends StatelessWidget {
       shrinkWrap: true,
       itemCount: dayInfoList.length,
       itemBuilder: (context, index) {
-        String time = weatherMap[daySelected][index]["time"];
+        final value = weatherMap[daySelected][index];
+        String time = value["time"];
+        String weatherMain = value["weatherMain"];
         int hour = int.parse(time.substring(0, 2));
         return Card(
           color: Colors.white,
@@ -42,7 +44,7 @@ class ListViewDayDetails extends StatelessWidget {
                 Image.asset(putTimePeriodImage(hour), height: 40, width: 40),
                 const SizedBox(width: 10),
                 Text(
-                  weatherMap[daySelected][index]["time"],
+                  time,
                   style: TextStyle(
                     color: AppColors.secondaryColor,
                     fontSize: 15,
@@ -51,7 +53,7 @@ class ListViewDayDetails extends StatelessWidget {
                 ),
                 const SizedBox(width: 40),
                 Text(
-                  "${weatherMap[daySelected][index]["temp"]}${AppStrings.tempUnit}",
+                  "${value["temp"]}${AppStrings.tempUnit}",
                   style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w700,
@@ -62,14 +64,12 @@ class ListViewDayDetails extends StatelessWidget {
                 Column(
                   children: [
                     Image.asset(
-                      cityLoction.getImageByweatherTypeCity(
-                        weatherMap[daySelected][index]["weatherMain"],
-                      ),
+                      cityLocation.getImageByweatherTypeCity(weatherMain),
                       height: 30,
                       width: 30,
                     ),
                     Text(
-                      weatherMap[daySelected][index]["weatherMain"],
+                      weatherMain,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,

@@ -9,7 +9,7 @@ class CountryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Text(
         "${country.flag} ${country.nameEn}",
         style: const TextStyle(

@@ -18,44 +18,38 @@ class BuildCities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 80,
-          child: InkWell(
-            splashColor: Colors.transparent,
-            onTap: onTap,
-            child: Card(
-              elevation: 2,
-              shadowColor: Colors.grey,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      height: 25,
-                      width: 25,
-                      isSelected ? ImagePaths.checked : ImagePaths.unchecked,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        city.nameEn,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+    return InkWell(
+      splashColor: Colors.transparent,
+      onTap: onTap,
+      child: Card(
+        margin: EdgeInsets.symmetric(vertical: 5),
+        elevation: 2,
+        shadowColor: Colors.grey,
+        color: isSelected ? Colors.blue[50] : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Image.asset(
+                height: 25,
+                width: 25,
+                isSelected ? ImagePaths.checked : ImagePaths.unchecked,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  city.nameEn,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: isSelected ? Colors.blue[700] : Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
