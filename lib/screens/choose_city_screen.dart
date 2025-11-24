@@ -109,6 +109,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
                   MaterialPageRoute(
                     builder: (context) {
                       return HomePage(
+                        isCity: false,
                         cityName: citySelected!.nameEn,
                         countryName: countryName,
                       );
@@ -166,6 +167,52 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return HomePage(
+                                isCity: false,
+                                cityName: AppStrings.loading,
+                                countryName: AppStrings.loading,
+                              );
+                            },
+                          ),
+                        )
+                        .then((_) {
+                          setState(() {
+                            selectedCityIndex = -1;
+                            selectedCountryIndex = -1;
+                            citySelected = null;
+                          });
+                        });
+                  },
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Get My Location Weather",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.gradiantColor2,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Icon(
+                          Icons.ads_click_rounded,
+                          color: AppColors.gradiantColor2,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),

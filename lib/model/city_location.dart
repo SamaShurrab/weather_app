@@ -9,7 +9,7 @@ class CityLocation {
   // constructor
   CityLocation();
 
-  Future<void> getCityLocation(String cityName) async {
+  Future<void> getCityLocationByName(String cityName) async {
     try {
       List<Location> locations = await locationFromAddress(cityName);
       if (locations.isEmpty) {
@@ -20,7 +20,7 @@ class CityLocation {
     } catch (error) {
       throw Exception("${AppStrings.failedGetData} $error");
     } //catch()
-  } //getCityLocation()
+  } //getCityLocationByName()
 
   String getImageByweatherTypeCity(String weatherType) {
     switch (weatherType.toLowerCase()) {

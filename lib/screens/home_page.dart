@@ -11,16 +11,20 @@ import 'package:weather_app/customWidget/dialog_change_temp_unit.dart';
 import 'package:weather_app/helper/api_helper.dart';
 import 'package:weather_app/helper/time_helper.dart';
 import 'package:weather_app/model/city_location.dart';
+import 'package:weather_app/model/user_location.dart';
+import 'package:weather_app/services/location_services.dart';
 
 class HomePage extends StatefulWidget {
   final String cityName;
   final String countryName;
+  final bool isCity;
 
   // constructor
   const HomePage({
     super.key,
     required this.cityName,
     required this.countryName,
+    required this.isCity,
   });
 
   @override
@@ -39,6 +43,9 @@ class HomePageState extends State<HomePage> {
   TimeHelper timeHelper = TimeHelper();
   Map<String, dynamic> daysIfoMap = {};
   Future<void>? weatherData;
+  UserLocation? userLocation;
+  String? cityName;
+  String? countryName;
 
   void buildMapDayInfo() {
     for (var entry in weatherMap.entries) {
@@ -62,6 +69,12 @@ class HomePageState extends State<HomePage> {
     if (weatherApiMap["list"] == null || weatherApiMap["list"].isEmpty) {
       throw Exception(AppStrings.failedLoadData);
     } else {
+      cityName = widget.isCity
+          ? widget.cityName
+          : weatherApiMap["city"]["name"];
+      countryName = widget.isCity
+          ? widget.countryName
+          : weatherApiMap["city"]["country"];
       for (int i = 0; i < weatherApiMap["list"].length; i++) {
         final int dt = weatherApiMap["list"][i]["dt"];
         final String dtTxtKey = weatherApiMap["list"][i]["dt_txt"];
@@ -77,7 +90,49 @@ class HomePageState extends State<HomePage> {
         } //if()
       } //for()
     } //else
-  } //buildWeatherMap()
+  } //buildWeatherMapCity()
+
+  Future<void> getUserLocation() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      print('بدء جلب الموقع...');
+      userLocation = await LocationServices.getCurrentLocation();
+      if (userLocation != null) {
+        print(
+          'Successful to get coordinates user: ${userLocation!.latitude}, ${userLocation!.longitude}',
+        );
+        String urlApi =
+            "https://api.openweathermap.org/data/2.5/forecast?lat=${userLocation!.latitude}&lon=${userLocation!.longitude}&appid=${AppStrings.apiKeys}&units=$initialUnitTemp";
+        weatherApiMap = await ApiHelper.getData(
+          userLocation!.latitude,
+          userLocation!.longitude,
+          urlApi,
+        );
+        buildWeatherMap();
+        buildMapDayInfo();
+        timeHelper.getNearestTime();
+        timeHelper.buildCurrentDtTxt();
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+      throw Exception(error);
+    }
+  }
+
+  void checkIsCity() {
+    if (widget.isCity) {
+      weatherData = loadWeatherData();
+    } else {
+      weatherData = getUserLocation();
+    }
+  }
 
   Future<void> loadWeatherData() async {
     setState(() {
@@ -87,7 +142,7 @@ class HomePageState extends State<HomePage> {
       isLoading = true;
     });
     try {
-      await cityLocation.getCityLocation(widget.cityName);
+      await cityLocation.getCityLocationByName(widget.cityName);
       print("latitude for ${widget.cityName}: ${cityLocation.latitude}");
       print("longitude for ${widget.cityName}: ${cityLocation.longitude}");
       if (cityLocation.latitude == 0 || cityLocation.longitude == 0) {
@@ -118,11 +173,15 @@ class HomePageState extends State<HomePage> {
   } //buildWeatherApiMap()
 
   bool get isDataLoading =>
-      isLoading || timeHelper.currentDtTxt.isEmpty || weatherMap.isEmpty;
+      isLoading ||
+      timeHelper.currentDtTxt.isEmpty ||
+      weatherMap.isEmpty ||
+      !weatherMap.containsKey(timeHelper.currentDtTxt);
   @override
   void initState() {
     super.initState();
-    weatherData = loadWeatherData();
+    checkIsCity();
+    print(timeHelper.currentDtTxt);
   } //initState()
 
   @override
@@ -152,7 +211,9 @@ class HomePageState extends State<HomePage> {
                     print("Selected unit: $initialUnitTemp");
                   });
                 }
-                await loadWeatherData();
+                widget.isCity
+                    ? await loadWeatherData()
+                    : await getUserLocation();
               });
             },
             icon: const Icon(Icons.settings_rounded),
@@ -181,7 +242,9 @@ class HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${widget.cityName}, ${widget.countryName}",
+                    isDataLoading
+                        ? AppStrings.loading
+                        : "$cityName, $countryName",
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,

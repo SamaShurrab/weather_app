@@ -48,6 +48,13 @@ class AppStrings {
   static final String unexpectedError = "Unexpected error";
   static final String failedLoadData = "Failed to load data. Status code:";
   static final String invalidCoordinates = "Invalid Coordinates";
+  static final String locationNotEnabled =
+      "Location services are not enabled on your device.";
+  static final String permissionDeniad =
+      "The user refused to grant permissions";
+  static final String permissionDeniadForEver =
+      "The Permissions are permanently rejected";
+  static final String locationError = "Location fetching error";
 
   // UnknownRoute
   static String pageNotFound = "Page Not Found";
