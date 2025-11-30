@@ -17,25 +17,11 @@ class TimeHelper {
 
   String getNearestTime() {
     List<int> timeInApi = [00, 03, 06, 09, 12, 15, 18, 21];
-    // currentHour = int.parse(DateFormat("HH").format(DateTime.now()));
     int currentHour = DateTime.now().hour;
     for (int time in timeInApi) {
       if (currentHour <= time) return time.toString().padLeft(2, "0");
     }
     return timeInApi.first.toString().padLeft(2, "0");
-    // for (int i = 0; i < timeInApi.length; i++) {
-    //   if (i == timeInApi.length - 1) {
-    //     currentHour = timeInApi[0];
-    //     break;
-    //   }
-    //   if (currentHour > timeInApi[i] && currentHour <= timeInApi[i + 1]) {
-    //     currentHour = timeInApi[i + 1];
-    //     break;
-    //   }
-
-    //   //if()
-    // } //for()
-    // return currentHour.toString().padLeft(2, "0");
   } //getNearestTime()
 
   String buildCurrentDtTxt() {

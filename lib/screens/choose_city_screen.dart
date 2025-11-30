@@ -39,7 +39,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
     });
   } //onCitySelected()
 
-  void openSearch(BuildContext context) async {
+  void openSearch() async {
     final Map<String, dynamic>? listSearch = await showSearch(
       context: context,
       delegate: CitySearchDelegate(countries: countryClass.countries),
@@ -109,7 +109,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
                   MaterialPageRoute(
                     builder: (context) {
                       return HomePage(
-                        isCity: false,
+                        isCity: true,
                         cityName: citySelected!.nameEn,
                         countryName: countryName,
                       );
@@ -141,7 +141,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              openSearch(context);
+              openSearch();
             },
             icon: const Icon(
               Icons.search_rounded,

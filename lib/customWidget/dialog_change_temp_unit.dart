@@ -42,13 +42,13 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 5),
               Expanded(
+                flex: 2,
                 child: SizedBox(
                   height: 50,
                   child: DropdownButtonFormField<String>(
                     isExpanded: true,
-
                     icon: const Icon(
                       Icons.keyboard_arrow_down_rounded,
                       color: Colors.white,
@@ -115,7 +115,6 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
         ],
       ),
 
-      actionsAlignment: MainAxisAlignment.center,
       actions: [
         Row(
           children: [
@@ -142,6 +141,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                 horizontalPadding: 30,
               ),
             ),
+            const SizedBox(width: 10),
             Expanded(
               child: CustomButton(
                 horizontalPadding: 30,

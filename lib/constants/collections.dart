@@ -17,7 +17,7 @@ final List<Map<String, dynamic>> weatherInformationList = [
   {
     "cardName": AppStrings.maxTemp,
     "cardImage": ImagePaths.maxTemp,
-    "cardValue": "temp_max",
+    "cardValue": "temp",
     "unit": AppStrings.tempUnit,
   },
 ];

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/constants/app_strings.dart';
@@ -8,6 +9,7 @@ import 'package:weather_app/customWidget/custom_listview_days.dart';
 import 'package:weather_app/customWidget/custom_row_weather_information.dart';
 import 'package:weather_app/customWidget/custom_snackbar.dart';
 import 'package:weather_app/customWidget/dialog_change_temp_unit.dart';
+import 'package:weather_app/customWidget/no_intrnet.dart';
 import 'package:weather_app/helper/api_helper.dart';
 import 'package:weather_app/helper/time_helper.dart';
 import 'package:weather_app/model/city_location.dart';
@@ -46,6 +48,7 @@ class HomePageState extends State<HomePage> {
   UserLocation? userLocation;
   String? cityName;
   String? countryName;
+  bool hasInternet = false;
 
   void buildMapDayInfo() {
     for (var entry in weatherMap.entries) {
@@ -81,7 +84,6 @@ class HomePageState extends State<HomePage> {
         if (!weatherMap.containsKey(dtTxtKey)) {
           weatherMap[dtTxtKey] = {
             "temp": weatherApiMap["list"][i]["main"]["temp"],
-            "temp_max": weatherApiMap["list"][i]["main"]["temp_max"],
             "humidity": weatherApiMap["list"][i]["main"]["humidity"],
             "weatherMain": weatherApiMap["list"][i]["weather"][0]["main"],
             "windSpeed": weatherApiMap["list"][i]["wind"]["speed"],
@@ -92,24 +94,34 @@ class HomePageState extends State<HomePage> {
     } //else
   } //buildWeatherMapCity()
 
-  Future<void> getUserLocation() async {
+  Future<void> loadUserWeatherData() async {
     setState(() {
+      daysIfoMap = {};
+      weatherApiMap = {};
+      weatherMap = {};
       isLoading = true;
     });
     try {
-      print('بدء جلب الموقع...');
+      final connectivityResult = await Connectivity().checkConnectivity();
+      hasInternet = connectivityResult != ConnectivityResult.none;
+      print('بدء loadUserWeatherData...');
+
       userLocation = await LocationServices.getCurrentLocation();
+      print(
+        'تم جلب الموقع: ${userLocation!.latitude}${userLocation!.longitude}',
+      );
       if (userLocation != null) {
-        print(
-          'Successful to get coordinates user: ${userLocation!.latitude}, ${userLocation!.longitude}',
-        );
+        print('جاري جلب بيانات الطقس من API...');
+
         String urlApi =
             "https://api.openweathermap.org/data/2.5/forecast?lat=${userLocation!.latitude}&lon=${userLocation!.longitude}&appid=${AppStrings.apiKeys}&units=$initialUnitTemp";
         weatherApiMap = await ApiHelper.getData(
           userLocation!.latitude,
           userLocation!.longitude,
           urlApi,
+          widget.isCity,
         );
+        print('تم جلب بيانات الطقس: ${weatherApiMap.containsKey("list")}');
         buildWeatherMap();
         buildMapDayInfo();
         timeHelper.getNearestTime();
@@ -117,8 +129,11 @@ class HomePageState extends State<HomePage> {
         setState(() {
           isLoading = false;
         });
+        print('تم تحميل الصفحة بنجاح');
       }
     } catch (error) {
+      print(' خطأ في loadUserWeatherData: $error');
+
       setState(() {
         isLoading = false;
       });
@@ -128,13 +143,13 @@ class HomePageState extends State<HomePage> {
 
   void checkIsCity() {
     if (widget.isCity) {
-      weatherData = loadWeatherData();
+      weatherData = loadCityWeatherData();
     } else {
-      weatherData = getUserLocation();
+      weatherData = loadUserWeatherData();
     }
   }
 
-  Future<void> loadWeatherData() async {
+  Future<void> loadCityWeatherData() async {
     setState(() {
       daysIfoMap = {};
       weatherApiMap = {};
@@ -142,6 +157,11 @@ class HomePageState extends State<HomePage> {
       isLoading = true;
     });
     try {
+      final connectivityResult = await Connectivity().checkConnectivity();
+      hasInternet = connectivityResult != ConnectivityResult.none;
+      if (!hasInternet) {
+        throw Exception("noIntrnet");
+      }
       await cityLocation.getCityLocationByName(widget.cityName);
       print("latitude for ${widget.cityName}: ${cityLocation.latitude}");
       print("longitude for ${widget.cityName}: ${cityLocation.longitude}");
@@ -154,6 +174,7 @@ class HomePageState extends State<HomePage> {
           cityLocation.latitude,
           cityLocation.longitude,
           urlApi,
+          widget.isCity,
         );
         buildWeatherMap();
         buildMapDayInfo();
@@ -167,10 +188,16 @@ class HomePageState extends State<HomePage> {
       setState(() {
         isLoading = false;
       });
-
-      throw Exception("Failed to fetch weather data: $error");
+      print("Error loadCityWeatherData $error");
+      if (error.toString().contains('PlatformException') ||
+          error.toString().contains('IO_ERROR') ||
+          error.toString().contains('UNAVAILABLE')) {
+        throw Exception("noIntrnet");
+      } else {
+        throw Exception("Failed to fetch weather data: $error");
+      }
     }
-  } //buildWeatherApiMap()
+  } //loadCityWeatherData()
 
   bool get isDataLoading =>
       isLoading ||
@@ -188,37 +215,43 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () async {
-              if (isLoading) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  CustomSnackbar.buildSnackBar(AppStrings.waiting, Colors.red),
-                );
-                return;
-              }
-              showDialog<String>(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return DialogChangeTempUnit();
-                },
-              ).then((String? selectedUnit) async {
-                if (selectedUnit != null) {
-                  setState(() {
-                    initialUnitTemp = selectedUnit;
-                    isLoading = true;
-                    print("Selected unit: $initialUnitTemp");
-                  });
-                }
-                widget.isCity
-                    ? await loadWeatherData()
-                    : await getUserLocation();
-              });
-            },
-            icon: const Icon(Icons.settings_rounded),
-          ),
-        ],
+        actions: !hasInternet
+            ? [
+                IconButton(
+                  onPressed: () async {
+                    if (isLoading) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        CustomSnackbar.buildSnackBar(
+                          AppStrings.waiting,
+                          Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                    showDialog<String>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return DialogChangeTempUnit();
+                      },
+                    ).then((String? selectedUnit) async {
+                      if (selectedUnit != null) {
+                        setState(() {
+                          initialUnitTemp = selectedUnit;
+                          isLoading = true;
+                          print("Selected unit: $initialUnitTemp");
+                        });
+
+                        widget.isCity
+                            ? await loadCityWeatherData()
+                            : await loadUserWeatherData();
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.settings_rounded),
+                ),
+              ]
+            : null,
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -229,6 +262,11 @@ class HomePageState extends State<HomePage> {
       body: FutureBuilder(
         future: weatherData,
         builder: (context, snapshot) {
+          if (widget.isCity &&
+              snapshot.hasError &&
+              snapshot.error.toString().contains("noIntrnet")) {
+            return NoIntrnet(cityName: widget.cityName);
+          }
           if (snapshot.hasError) {
             return CustomErrorWidget(
               errorTitle: "Error",

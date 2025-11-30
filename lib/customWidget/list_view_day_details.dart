@@ -41,42 +41,54 @@ class ListViewDayDetails extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(putTimePeriodImage(hour), height: 40, width: 40),
+                Expanded(
+                  child: Image.asset(
+                    putTimePeriodImage(hour),
+                    height: 40,
+                    width: 40,
+                  ),
+                ),
                 const SizedBox(width: 10),
-                Text(
-                  time,
-                  style: TextStyle(
-                    color: AppColors.secondaryColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
+                Expanded(
+                  child: Text(
+                    time,
+                    style: TextStyle(
+                      color: AppColors.secondaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 40),
-                Text(
-                  "${value["temp"]}${AppStrings.tempUnit}",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
+                Expanded(
+                  child: Text(
+                    "${value["temp"]}${AppStrings.tempUnit}",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 50),
-                Column(
-                  children: [
-                    Image.asset(
-                      cityLocation.getImageByweatherTypeCity(weatherMain),
-                      height: 30,
-                      width: 30,
-                    ),
-                    Text(
-                      weatherMain,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                Expanded(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        cityLocation.getImageByweatherTypeCity(weatherMain),
+                        height: 30,
+                        width: 30,
                       ),
-                    ),
-                  ],
+                      Text(
+                        weatherMain,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
