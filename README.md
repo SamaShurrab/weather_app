@@ -1,11 +1,13 @@
 # My Weather 🌤️
 
-https://img.shields.io/badge/Flutter-3.16-blue
-https://img.shields.io/badge/Dart-3.0-blue
-https://img.shields.io/badge/License-MIT-green
-https://img.shields.io/badge/API-OpenWeatherMap-orange
-https://img.shields.io/badge/Download-APK-brightgreen
+![Flutter](https://img.shields.io/badge/Flutter-3.24-blue?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.5-blue?logo=dart)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey)
 
+---
+
+## 🎯 Project Introduction
 A Flutter weather application that displays current weather conditions
 and 5-day forecasts, supports offline mode, and provides an elegant and
 simple user experience.
@@ -253,10 +255,3 @@ If you like the project:
     4. 💻 Contribute to development
     
 ## Developed with ❤️ by Sama Shurrab
-
-<div align="center">
-https://img.shields.io/github/stars/yourusername/my-weather?style=social
-https://img.shields.io/github/forks/yourusername/my-weather?style=social
-https://img.shields.io/github/issues/yourusername/my-weather
-
-</div>
