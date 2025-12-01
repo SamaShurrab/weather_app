@@ -130,17 +130,14 @@ simple user experience.
 
 ## 📷 Screenshots
 
-|Splash Screen | Choose City Screen |
+|Splash Screen | Choose City Screen | Search Screen |
 | --- | --- |
-| ![ Splash Screen](assets/screenShots/splashScreen.png) | ![ Choose City Screen](assets/screenShots/chooseCityScreen.png) |
+| ![ Splash Screen](assets/screenShots/splashScreen.png) | ![ Choose City Screen](assets/screenShots/chooseCityScreen.png) | ![ Search Screen](assets/screenShots/searchScreen.png) |
 
-|Search Screen | Home Screen |
+| Home Screen | Change Temperature | Day Weather Details Screen |
 | --- | --- |
-| ![ Search Screen](assets/screenShots/searchScreen.png) | ![ Home Screen](assets/screenShots/homeScreen.png) |
+| ![ Home Screen](assets/screenShots/homeScreen.png) | ![ Change Temperature](assets/screenShots/changeTemp.png) | ![ Day Weather Details Screen](assets/screenShots/DayWeatherDetails.png) |
 
-|Change Temperature | Day Weather Details Screen |
-| --- | --- |
-| ![ Change Temperature](assets/screenShots/changeTemp.png) | ![ Day Weather Details Screen](assets/screenShots/DayWeatherDetails.png) |
 
 ## 📦 Installation for Developers
 
@@ -249,9 +246,9 @@ Email: smshorap@gmail.com
 ## ⭐ Supporting the Project
 
 If you like the project:
-    1. ⭐ Give it a star on GitHub
-    2. 🔄 Share it with friends
-    3. 🐛 Help find bugs
-    4. 💻 Contribute to development
+    - ⭐ Give it a star on GitHub
+    - 🔄 Share it with friends
+    - 🐛 Help find bugs
+    - 💻 Contribute to development
     
 ## Developed with ❤️ by Sama Shurrab
