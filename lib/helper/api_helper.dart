@@ -27,7 +27,7 @@ class ApiHelper {
         try {
           final response = await http
               .get(Uri.parse(apiUrl))
-              .timeout(Duration(seconds: 30));
+              .timeout(Duration(seconds: 50));
 
           if (response.statusCode == 200) {
             Map<String, dynamic> weatherDataMap = jsonDecode(response.body);
