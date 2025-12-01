@@ -135,7 +135,7 @@ Splash & Home & Day Weather Details Screens
 <p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/splashScreen.png?raw=true" width="30%" alt="Splash Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/homeScreen.png?raw=true" width="30%" alt="Home Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/DayWeatherDetails.png?raw=true" width="30%" alt="Weather Details" /> </p>
 
 Search & City Selection & Change Temperature
-<p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/searchScreen.png?raw=true" width="48%" alt="Search Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/chooseCityScreen.png?raw=true" width="48%" alt="City Selection" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/changeTemp.png?raw=true" width="48%" alt="Temperature Settings" /> </p>
+<p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/searchScreen.png?raw=true" width="30%" alt="Search Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/chooseCityScreen.png?raw=true" width="30%" alt="City Selection" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/changeTemp.png?raw=true" width="30%" alt="Temperature Settings" /> </p>
 
 ## 📦 Installation for Developers
 
