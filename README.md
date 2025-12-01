@@ -54,23 +54,20 @@ simple user experience.
 
 ### Icons
 
--   Default Flutter icons\
--   App icon path:
-
-```{=html}
-<!-- -->
-```
-    assets/images/launcherIcon.png
+-   Default Flutter icons
 
 ### App Tools
 
--   flutter_launcher_icons\
+-   flutter_launcher_icons
 -   rename
+-   
+### App Launcher Icon
+(assets/images/launcherIcon.png)
 
 ## 📂 Project Structure
 
     The project follows a clean and organized directory structure:
-        ```plaintext
+        ```
         assets
         ├─ fonts
         └─ images
@@ -117,78 +114,18 @@ simple user experience.
 
 ## 📷 Screenshots
 
-```{=html}
-<table>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center">
-```
-`<b>`{=html}splashScreen`</b>`{=html}`<br>`{=html}
-`<img src="assets/screenShots/splashScreen.png" width="250">`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td align="center">
-```
-`<b>`{=html}homeScreen`</b>`{=html}`<br>`{=html}
-`<img src="assets/screenShots/homeScreen.png" width="250">`{=html}
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center">
-```
-`<b>`{=html}searchScreen`</b>`{=html}`<br>`{=html}
-`<img src="assets/screenShots/searchScreen.png" width="250">`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td align="center">
-```
-`<b>`{=html}chooseCityScreen`</b>`{=html}`<br>`{=html}
-`<img src="assets/screenShots/chooseCityScreen.png" width="250">`{=html}
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center">
-```
-`<b>`{=html}changeTemp`</b>`{=html}`<br>`{=html}
-`<img src="assets/screenShots/changeTemp.png" width="250">`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td align="center">
-```
-`<b>`{=html}DayWeatherDetails`</b>`{=html}`<br>`{=html}
-`<img src="assets/screenShots/DayWeatherDetails.png" width="250">`{=html}
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
-</table>
-```
+|Splash Screen | Choose City Screen |
+| --- | --- |
+| ![ Splash Screen](assets/screenShots/splashScreen.png) | ![ Choose City Screen](assets/screenShots/chooseCityScreen.png) |
+
+|Search Screen | Home Screen |
+| --- | --- |
+| ![ Search Screen](assets/screenShots/searchScreen.png) | ![ Home Screen](assets/screenShots/homeScreen.png) |
+
+|Change Temperature | Day Weather Details Screen |
+| --- | --- |
+| ![ Change Temperature](assets/screenShots/changeTemp.png) | ![ Day Weather Details Screen](assets/screenShots/DayWeatherDetails.png) |
+
 ## 👤 Author
 
 Sama Shurrab
