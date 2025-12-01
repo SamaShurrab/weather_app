@@ -76,8 +76,9 @@ simple user experience.
 -   flutter_launcher_icons
 -   rename
    
-### App Launcher Icon
-| ![ App Launcher Icon](assets/images/launcherIcon.png) |
+## 🎨 App Launcher Icon
+
+<div align="center"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/images/launcherIcon.png?raw=true" width="200" alt="My Weather App Icon"> </div>```
 
 
 ## 📂 Project Structure
@@ -128,16 +129,13 @@ simple user experience.
 
 🎬 https://www.youtube.com/watch?v=STv2Aqc6vsU
 
-## 📷 Screenshots
+## 📱 Application Screens
 
-|Splash Screen | Choose City Screen | Search Screen |
-| --- | --- |
-| ![ Splash Screen](assets/screenShots/splashScreen.png) | ![ Choose City Screen](assets/screenShots/chooseCityScreen.png) | ![ Search Screen](assets/screenShots/searchScreen.png) |
+Splash & Home & Day Weather Details Screens
+<p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/splashScreen.png?raw=true" width="30%" alt="Splash Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/homeScreen.png?raw=true" width="30%" alt="Home Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/DayWeatherDetails.png?raw=true" width="30%" alt="Weather Details" /> </p>
 
-| Home Screen | Change Temperature | Day Weather Details Screen |
-| --- | --- |
-| ![ Home Screen](assets/screenShots/homeScreen.png) | ![ Change Temperature](assets/screenShots/changeTemp.png) | ![ Day Weather Details Screen](assets/screenShots/DayWeatherDetails.png) |
-
+Search & City Selection & Change Temperature
+<p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/searchScreen.png?raw=true" width="48%" alt="Search Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/chooseCityScreen.png?raw=true" width="48%" alt="City Selection" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/changeTemp.png?raw=true" width="48%" alt="Temperature Settings" /> </p>
 
 ## 📦 Installation for Developers
 
