@@ -215,43 +215,38 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: !hasInternet
-            ? [
-                IconButton(
-                  onPressed: () async {
-                    if (isLoading) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        CustomSnackbar.buildSnackBar(
-                          AppStrings.waiting,
-                          Colors.red,
-                        ),
-                      );
-                      return;
-                    }
-                    showDialog<String>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) {
-                        return DialogChangeTempUnit();
-                      },
-                    ).then((String? selectedUnit) async {
-                      if (selectedUnit != null) {
-                        setState(() {
-                          initialUnitTemp = selectedUnit;
-                          isLoading = true;
-                          print("Selected unit: $initialUnitTemp");
-                        });
+        actions: [
+          IconButton(
+            onPressed: () async {
+              if (isLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  CustomSnackbar.buildSnackBar(AppStrings.waiting, Colors.red),
+                );
+                return;
+              }
+              showDialog<String>(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return DialogChangeTempUnit();
+                },
+              ).then((String? selectedUnit) async {
+                if (selectedUnit != null) {
+                  setState(() {
+                    initialUnitTemp = selectedUnit;
+                    isLoading = true;
+                    print("Selected unit: $initialUnitTemp");
+                  });
 
-                        widget.isCity
-                            ? await loadCityWeatherData()
-                            : await loadUserWeatherData();
-                      }
-                    });
-                  },
-                  icon: const Icon(Icons.settings_rounded),
-                ),
-              ]
-            : null,
+                  widget.isCity
+                      ? await loadCityWeatherData()
+                      : await loadUserWeatherData();
+                }
+              });
+            },
+            icon: const Icon(Icons.settings_rounded),
+          ),
+        ],
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -308,7 +303,7 @@ class HomePageState extends State<HomePage> {
                             weatherMap[timeHelper.currentDtTxt]["weatherMain"],
                           ),
                     temp: isDataLoading
-                        ? 0
+                        ? 0.0
                         : weatherMap[timeHelper.currentDtTxt]["temp"],
                     tempUnit: initialUnitTemp == AppStrings.celsiusUnitApi
                         ? AppStrings.celsiusUnit
