@@ -1,8 +1,7 @@
 # My Weather 🌤️
 
-![Flutter](https://img.shields.io/badge/Flutter-3.24-blue?logo=flutter)
+![Flutter](https://img.shields.io/badge/Flutter-3.16-blue?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.5-blue?logo=dart)
-![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey)
 
 ---
@@ -149,8 +148,8 @@ Search & City Selection & Change Temperature
 
     ```
     # 1. Clone the project
-    git clone https://github.com/yourusername/my-weather.git
-    cd my-weather
+    git clone https://github.com/SamaShurrab/weather_app
+    cd weather_app
     
     # 2. Install dependencies
     flutter pub get
@@ -243,7 +242,7 @@ Email: smshorap@gmail.com
 
 ## ⭐ Supporting the Project
 
-If you like the project:
+### If you like the project:
     - ⭐ Give it a star on GitHub
     - 🔄 Share it with friends
     - 🐛 Help find bugs
