@@ -105,12 +105,12 @@ simple user experience.
 
 ### First Launch
 
--   App requests location permission\
+-   App requests location permission
 -   Enter your API key
 
 ### Search
 
--   Tap search icon\
+-   Tap search icon
 -   Enter city
 
 ### Offline Mode
@@ -129,8 +129,6 @@ simple user experience.
 
 🎬 https://www.youtube.com/watch?v=STv2Aqc6vsU
 
----
-
 ## 📱 Application Screens
 
 Splash & Home & Day Weather Details Screens
@@ -141,11 +139,11 @@ Search & City Selection & Change Temperature
 
 ## 📦 Installation for Developers
 
-  Prerequisites:
-   -Flutter SDK 3.16+
-   -Dart SDK 3.0+
-   -Android Studio / VS Code
-   -Emulator or physical device
+  ### Prerequisites:
+  -   Flutter SDK 3.16+
+  -   Dart SDK 3.0+
+  -  Android Studio / VS Code 
+  -  Emulator or physical device 
    
 ## Installation Steps
 
