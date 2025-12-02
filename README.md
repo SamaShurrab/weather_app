@@ -3,6 +3,26 @@
 ![Flutter](https://img.shields.io/badge/Flutter-3.16-blue?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.5-blue?logo=dart)
 ![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey)
+![Status](https://img.shields.io/badge/Build-Passing-brightgreen)
+![Stars](https://img.shields.io/github/stars/SamaShurrab/weather_app?style=social)
+
+---
+
+## 📚 Table of Contents
+- [🎯 Project Introduction](#-project-introduction)
+- [📱 Features](#-features)
+- [🛠️ Technologies Used](#️-technologies-used)
+- [📂 Project Structure](#-project-structure)
+- [🚀 Usage](#-usage)
+- [🎨 App Launcher Icon](#-app-launcher-icon)
+- [🎥 Application Demo](#-application-demo)
+- [📱 Screenshots](#-application-screens)
+- [📦 Installation](#-installation-for-developers)
+- [⚙️ Configuration](#️-setup--configuration)
+- [🤝 Contributing](#-contributing)
+- [🐛 Reporting Issues](#-reporting-issues)
+- [📞 Contact](#-contact--support)
+- [⭐ Support](#-supporting-the-project)
 
 ---
 
@@ -243,9 +263,9 @@ Email: smshorap@gmail.com
 ## ⭐ Supporting the Project
 
 ### If you like the project:
-    - ⭐ Give it a star on GitHub
-    - 🔄 Share it with friends
-    - 🐛 Help find bugs
-    - 💻 Contribute to development
+- ⭐ Give it a star on GitHub
+- 🔄 Share it with friends
+- 🐛 Help find bugs
+- 💻 Contribute to development
     
 ## Developed with ❤️ by Sama Shurrab
