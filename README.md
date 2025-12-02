@@ -75,10 +75,6 @@ simple user experience.
 
 -   flutter_launcher_icons
 -   rename
-   
-## 🎨 App Launcher Icon
-
-<div align="center"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/images/launcherIcon.png?raw=true" width="200" alt="My Weather App Icon"> </div>```
 
 
 ## 📂 Project Structure
@@ -124,6 +120,10 @@ simple user experience.
 ### Switch Units
 
 -   Tap temperature
+  
+## 🎨 App Launcher Icon
+
+<div align="center"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/images/launcherIcon.png?raw=true" width="200" alt="My Weather App Icon"> </div>```
 
 ## 🎥 Application Demo
 
@@ -136,6 +136,15 @@ Splash & Home & Day Weather Details Screens
 
 Search & City Selection & Change Temperature
 <p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/searchScreen.png?raw=true" width="30%" alt="Search Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/chooseCityScreen.png?raw=true" width="30%" alt="City Selection" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/changeTemp.png?raw=true" width="30%" alt="Temperature Settings" /> </p>
+
+## 📋 Screen Descriptions
+
+| Screen | Description | Description |
+|--------|-----------|--------|
+| Android Studio | بيئة التطوير | [تحميل](https://developer.android.com) |
+| VS Code | محرر النصوص | [تحميل](https://code.visualstudio.com) |
+| Git | التحكم بالإصدارات | [تحميل](https://git-scm.com) |
+| Flutter SDK | إطار العمل | [تحميل](https://flutter.dev) |
 
 ## 📦 Installation for Developers
 
