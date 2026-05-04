@@ -21,10 +21,7 @@ class UnKnownRouteScreen extends StatelessWidget {
         backgroundColor: AppColors.secondaryColor,
         centerTitle: true,
       ),
-      body: CustomErrorWidget(
-        errorTitle: "Error",
-        errorDescription: AppStrings.errorDescription,
-      ),
+      body: CustomErrorWidget(errorTitle: "Error", errorDescription: "ُققخق"),
     );
   }
 }

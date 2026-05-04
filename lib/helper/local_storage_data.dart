@@ -46,7 +46,7 @@ class LocalStorageData {
       print("save weather Data");
     } catch (error) {
       print("Error saveWeatherData()");
-      throw Exception("Error to Save Weather Data:$error");
+      throw Exception("Error to Save Weather Data");
     }
   } //saveWeatherData()
 
@@ -66,7 +66,7 @@ class LocalStorageData {
       }
     } catch (error) {
       print("Error getWeatherData()");
-      throw Exception("Error retrieving stored data:$error");
+      throw Exception("Error retrieving stored data");
     }
   } //getWeatherData()
 
@@ -77,7 +77,7 @@ class LocalStorageData {
       final String key = "weather_${lat}_$long";
       return sharedPreferences.containsKey(key);
     } catch (error) {
-      throw Exception("Data verification error:$error");
+      throw Exception("Data verification error");
     }
   }
 }

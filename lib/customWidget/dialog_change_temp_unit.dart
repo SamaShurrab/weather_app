@@ -20,6 +20,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
     return AlertDialog(
       title: Text(
         AppStrings.changeTemp,
+        textAlign: TextAlign.center,
         style: const TextStyle(
           color: Colors.black,
           fontSize: 21,
@@ -35,6 +36,7 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                 flex: 1,
                 child: Text(
                   AppStrings.selectUnit,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -138,13 +140,13 @@ class DialogChangeTempUnitState extends State<DialogChangeTempUnit> {
                     Navigator.of(context).pop(unitForApi);
                   }
                 },
-                horizontalPadding: 30,
+                horizontalPadding: 12,
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: CustomButton(
-                horizontalPadding: 30,
+                horizontalPadding: 17,
                 buttonText: AppStrings.cancel,
                 onPressed: () {
                   Navigator.of(context).pop();

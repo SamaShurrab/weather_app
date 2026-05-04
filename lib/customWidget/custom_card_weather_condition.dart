@@ -39,7 +39,7 @@ class CustomCardWeatherCondition extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class CustomCardWeatherCondition extends StatelessWidget {
                   child: Text(
                     "$temp$tempUnit",
                     style: const TextStyle(
-                      fontSize: 55,
+                      fontSize: 35,
                       color: Colors.white38,
                       fontWeight: FontWeight.w600,
                     ),
@@ -71,9 +71,9 @@ class CustomCardWeatherCondition extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: 15,
-          top: -65,
-          child: Image.asset(weatherConditionImage, height: 130, width: 130),
+          left: 10,
+          top: -60,
+          child: Image.asset(weatherConditionImage, height: 120, width: 110),
         ),
       ],
     );

@@ -137,7 +137,9 @@ class HomePageState extends State<HomePage> {
       setState(() {
         isLoading = false;
       });
-      throw Exception(error);
+      throw Exception(
+        "Please allow location access and check your internet connection",
+      );
     }
   }
 
@@ -214,7 +216,11 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () async {

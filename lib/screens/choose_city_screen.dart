@@ -88,6 +88,7 @@ class ChooseCityScreenState extends State<ChooseCityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
         backgroundColor: AppColors.secondaryColor,

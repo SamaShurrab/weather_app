@@ -48,18 +48,16 @@ class ListViewDayDetails extends StatelessWidget {
                     width: 40,
                   ),
                 ),
-                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     time,
                     style: TextStyle(
                       color: AppColors.secondaryColor,
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-                const SizedBox(width: 40),
                 Expanded(
                   child: Text(
                     "${value["temp"]}${AppStrings.tempUnit}",
@@ -70,7 +68,6 @@ class ListViewDayDetails extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 50),
                 Expanded(
                   child: Column(
                     children: [
@@ -82,7 +79,7 @@ class ListViewDayDetails extends StatelessWidget {
                       Text(
                         weatherMain,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
                         ),
