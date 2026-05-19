@@ -156,82 +156,11 @@ Splash & Home & Day Weather Details Screens
 Search & City Selection & Change Temperature
 <p float="left"> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/searchScreen.png?raw=true" width="30%" alt="Search Screen" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/chooseCityScreen.png?raw=true" width="30%" alt="City Selection" /> <img src="https://github.com/SamaShurrab/weather_app/blob/main/assets/screenShots/changeTemp.png?raw=true" width="30%" alt="Temperature Settings" /> </p>
 
-## 📦 Installation for Developers
+## 📦 APK Download
 
-  ### Prerequisites:
-  -   Flutter SDK 3.16+
-  -   Dart SDK 3.0+
-  -  Android Studio / VS Code 
-  -  Emulator or physical device 
-   
-## Installation Steps
+Download the latest version of **My Weather** from GitHub Releases:
 
-    ```
-    # 1. Clone the project
-    git clone https://github.com/SamaShurrab/weather_app
-    cd weather_app
-    
-    # 2. Install dependencies
-    flutter pub get
-    
-    # 3. Generate app icons
-    flutter pub run flutter_launcher_icons:main
-    
-    # 4. Run the app
-    flutter run
-    ```
-
-## Build APK
-
-    ```
-    # Build release version
-    flutter build apk --release
-    
-    # Build smaller version
-    flutter build apk --split-per-abi --release
-    
-    # File will be in:
-    # build/app/outputs/flutter-apk/app-release.apk
-    ```
-
-## ⚙️ Setup & Configuration
-
-   1. Get API Key
-        1. Register on OpenWeatherMap
-        2. Create a free account
-        3. Go to My API Keys
-        4. Copy your key
-    2. Add Key to App
-        For Development:
-            ```dart
-           // In AppStrings file
-            const String apiKey = "YOUR_API_KEY_HERE";  
-            ```
-
-## 🤝 Contributing
-
-We welcome your contributions! Follow these steps:
-    1. Fork the project
-    2. Create a new branch:
-        ```
-        git checkout -b feature/feature-name
-        ```
-    3. Commit your changes:
-         ```
-        git commit -m 'Add new feature'
-        ```
-    4. Push to the branch:
-        ```
-        git push origin feature/feature-name
-        ```
-    5. Open a Pull Request
-
-## Contribution Guidelines
-
-- Follow existing code style
-- Write tests for new features
-- Update documentation when needed
-- Ensure all tests pass
+👉 [Download Latest APK](https://github.com/SamaShurrab/Modern-Quiz-App-Ui/releases/latest)
 
 ## 🐛 Reporting Issues
 
