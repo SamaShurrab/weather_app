@@ -160,7 +160,7 @@ Search & City Selection & Change Temperature
 
 Download the latest version of **My Weather** from GitHub Releases:
 
-👉 [Download Latest APK](https://github.com/SamaShurrab/Modern-Quiz-App-Ui/releases/latest)
+👉 [Download Latest APK](https://github.com/SamaShurrab/weather_app/releases/tag/v1.0.0)
 
 ## 🐛 Reporting Issues
 
